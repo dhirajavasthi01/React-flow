@@ -1,0 +1,112 @@
+.boilerCompOff {
+  min-height: 18vmin;
+}
+
+.boilerCompOff .s {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.boilerCompOff .label {
+  margin-bottom: 10px;
+}
+
+.boilerCompOff .textWrapper {
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  top: -12px;
+}
+
+.boilerCompOff .boilerOff {
+  background-color: transparent;
+  border-radius: 10px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100px;
+}
+
+.boilerCompOff .boiler {
+  background-image: url("../../../../assets/sabic_icons/network_icons/turbineCompOff.svg");
+  background-size: 100% 100%;
+  height: 42px;
+  left: 160px;
+  position: relative;
+  top: 5px;
+  transform: translateX(-50%);
+  width: 42px;
+}
+
+.boilerCompOff .div {
+  left: -17px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 11px;
+}
+
+.boilerCompOff .key {
+  margin-top: 10px;
+}
+
+.boilerCompOn {
+  min-height: 18vmin;
+}
+
+.boilerCompOn .s {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+  position: relative;
+}
+
+.boilerCompOn .label {
+  margin-bottom: 10px;
+}
+
+.boilerCompOn .boilerOn {
+  background-color: transparent;
+  border-radius: 10px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100px;
+}
+
+.boilerCompOn .boilerOff img {
+  height: 100% !important;
+}
+
+.boilerCompOn img {
+  height: 100% !important;
+}
+
+.boilerCompOn .boiler {
+  background-image: url("../../../../assets/sabic_icons/network_icons/turbineCompOn.svg");
+  background-size: 100% 100%;
+  height: 42px;
+  left: 160px;
+  position: relative;
+  top: 5px;
+  transform: translateX(-50%);
+  width: 42px;
+}
+
+.boilerCompOn .div {
+  color: black;
+  left: -17px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 11px;
+}
+
+.boilerCompOn .key {
+  margin-top: 10px;
+}

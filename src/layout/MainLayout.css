@@ -1,0 +1,61 @@
+.main-layout {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header,
+.content,
+.footer {
+  width: 100%;
+}
+
+.header-div {
+  height: 4vh;
+  background-image: linear-gradient(130deg, #0047bb 0%, var(--primary-blue) 100%);
+}
+
+.header {
+  height: 6.5vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  background-color: var(--primary-white);
+}
+
+.sidebar {
+  width: 19vmin;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.top-container {
+  padding: 0.4vmin 2vmin 0.1vmin 2vmin;
+  height: 5vmin;
+}
+
+.bottom-container {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  margin-left: 10;
+}
+
+.footer-div {
+  height: 4vh;
+  background-image: linear-gradient(130deg, var(--primary-yellow) 0%, var(--primary-yellow-20) 100%);
+}
+
+.footer {
+  height: 2.5vh;
+}

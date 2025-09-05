@@ -1,0 +1,143 @@
+
+
+.primaryBlueButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #009FDF;
+  height: 3.5vmin;
+  border-radius: .3vmin;
+  color: #FFFFFF !important;
+  padding: .25vmin 2vmin 0 2vmin;
+}
+
+.saveButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #009FDF;
+  height: 3.5vmin;
+  border-radius: .3vmin;
+  color: #FFFFFF !important;
+  padding: .25vmin 2vmin 0 2vmin;
+  z-index: 100;
+}
+
+.primaryGrayButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #555757;
+  height: 3.5vmin;
+  border-radius: .5vmin;
+  color: #FFFFFF !important;
+  padding: .25vmin 2vmin 0 2vmin;
+}
+
+.primaryRedButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #c69f11;
+  height: 3.5vmin;
+  border-radius: .5vmin;
+  color: #FFFFFF !important;
+  padding: .25vmin 2vmin 0 2vmin;
+}
+
+:global(.form-control) {
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: .3vmin;
+}
+
+.flowMainContainer {
+  margin: .5vmin 1.5vmin 1.5vmin 1.5vmin;
+  height: calc(100% - 2vmin);
+  width: calc(100% - 3vmin);
+}
+
+.flowContainer {
+  
+  display: flex;
+  height: 90%;
+  padding: 1vmin;
+  overflow-y: hidden;
+  border-radius: 1vmin;
+
+  &_left {
+    width: 90vmin;
+
+    .leftTopSection {
+      height: 40%;
+      padding: 1.5vmin .75vmin 1.5vmin 1.5vmin;
+
+      &_scrollContainer {
+        height: 100%;
+        overflow-y: auto;
+
+        .nodeListContainer {
+          padding-right: .75vmin;
+        }
+
+        .nodeListItem {
+          // min-height: 2.5vmin;
+          padding: .5vmin;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #009FDF;
+          color: #FFFFFF;
+          border-radius: .5vmin;
+          cursor: pointer;
+          margin-bottom: 1.5vmin;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .leftBottomSection {
+      height: 60%;
+      padding: 1.5vmin .75vmin;
+      border-top: 1px solid #444445;
+
+      .scrollContainer {
+        padding: 0 .75vmin;
+        height: 100%;
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &_right {
+    position: relative;
+    width: calc(100% - 40vmin);
+    flex-grow: 1;
+
+    .hideHandleBtn {
+      width: 16vmin;
+      position: absolute;
+      right: 1vmin;
+      top: 1vmin;
+      z-index: 9;
+      color: #FFFFFF;
+    }
+
+    .positionPrimaryButton {
+      position: absolute;
+      right: 18vmin;
+      top: 1vmin;
+      z-index: 9;
+      color: #FFFFFF;
+    }
+  }
+}
+
+

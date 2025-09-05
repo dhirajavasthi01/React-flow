@@ -1,0 +1,28 @@
+:root {
+  --primary-blue: #your-blue-color;
+  --primary-white: #your-white-color;
+  --primary-yellow: #your-yellow-color;
+  --primary-yellow-20: #your-yellow-20-color;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}

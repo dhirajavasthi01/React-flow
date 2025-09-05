@@ -1,0 +1,32 @@
+
+
+.networkParentContainer {
+  overflow: hidden;
+  height: 100%;
+  margin: 20;
+  background-color: whitesmoke;
+
+  .dropdownContainer {
+    height: 4vmin;
+    margin-bottom: 1vmin;
+    padding: 0 1.5vmin;
+  }
+
+  .primaryBlueButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #009FDF ;
+    height: 6vmin;
+    width: 23vmin;
+    border-radius: .3vmin;
+    color: #FFFFFF;
+    padding: .25vmin 2vmin 0 2vmin;
+  }
+
+  .networkFlowContainer {
+    
+    height: calc(100% - 4vmin - 1vmin);
+  }
+}

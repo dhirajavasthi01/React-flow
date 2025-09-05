@@ -1,0 +1,138 @@
+
+// Container styles
+.svgNodeContainer {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #c0c0c0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Active and inactive states
+.mpNodeActive {
+  border-color: #4caf50 !important;
+  background-color: #f1f8e9;
+}
+
+.mpNodeInactive {
+  border-color: #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+// SVG container
+.svgContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 60%;
+  min-height: 40px;
+}
+
+// SVG content
+.svgContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// SVG image (fallback)
+.svgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+// Highlighted state
+.highlighted {
+  // Apply to SVG elements
+  [stroke] {
+    stroke-width: 2px !important;
+    filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.7));
+  }
+  
+  // Optional: Add animation for pulsating effect
+  animation: pulseHighlight 1.5s infinite;
+}
+
+// Fallback for img tags
+img.highlighted {
+  border: 2px solid gold;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+  animation: pulseHighlight 1.5s infinite;
+}
+
+// Pulsating animation
+@keyframes pulseHighlight {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// Label styles
+.svgNodeLabel {
+  margin-bottom: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.svgNodeSubLabel {
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.svgNodeText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+// Additional highlight variants
+.highlightedWarning {
+  [stroke] {
+    stroke-width: 4px !important;
+    stroke: #ff9900 !important;
+    filter: drop-shadow(0 0 3px rgba(255, 153, 0, 0.7));
+  }
+}
+
+.highlightedError {
+  [stroke] {
+    stroke-width: 4px !important;
+    stroke: #ff0000 !important;
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .svgNodeContainer {
+    padding: 6px;
+  }
+  
+  .svgNodeText {
+    font-size: 12px;
+  }
+  
+  .svgContainer {
+    width: 85%;
+    height: 55%;
+  }
+}
