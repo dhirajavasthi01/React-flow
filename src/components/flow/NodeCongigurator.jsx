@@ -17,7 +17,7 @@ import {
     selectedPageAtom,
     tagListAtom,
     updateConfigAtom,
-    subSystemListAtom, 
+    subSystemListAtom,
 } from '../../pages/network/store'
 import { BoilerNodeFieldConfig } from './nodes/Boilder'
 import { MpNodeFieldConfig } from './nodes/MpNode'
@@ -203,7 +203,7 @@ const NodeConfigurator = () => {
                 })),
             ]
         }
-        
+
         if (key === 'subSystem') {
             return [
                 { id: null, name: 'Select Sub System' },
@@ -213,7 +213,7 @@ const NodeConfigurator = () => {
                 })),
             ]
         }
-        
+
         return []
     }
 
@@ -261,22 +261,70 @@ const NodeConfigurator = () => {
             )
         }
 
-        if (field.type === 'color') {
-            return (
-                <div key={field.name}>
-                    <label className="text-13-bold text-uppercase">
-                        {field.label} :{' '}
-                    </label>
-                    <input
-                        className="form-control text-14-regular "
-                        type="color"
-                        name={field.name}
-                        value={data?.[field.name] || ''}
-                        onChange={onConfigChange}
-                    />
-                </div>
-            )
+        // if (field.type === 'color') {
+        //     return (
+        //         <div key={field.name}>
+        //             <label className="text-13-bold text-uppercase">
+        //                 {field.label} :{' '}
+        //             </label>
+        //             <input
+        //                 className="form-control text-14-regular "
+        //                 type="color"
+        //                 name={field.name}
+        //                 value={data?.[field.name] || ''}
+        //                 onChange={onConfigChange}
+        //             />
+        //             <input type="color" name="gradientStart" value={data.gradientStart} onChange={onConfigChange} />
+        //             <input type="color" name="gradientEnd" value={data.gradientEnd} onChange={onConfigChange} />
+        //         </div>
+        //     )
+        // }
+
+        {
+            if (field.name === 'nodeColor') {
+                return (
+                    <div key={field.name}>
+                        <label className="text-13-bold text-uppercase">
+                            {field.label} :
+                        </label>
+                        <input
+                            type="color"
+                            name="gradientStart"
+                            value={data.gradientStart}
+                            onChange={onConfigChange}
+                            className="form-control text-14-regular"
+                        />
+                        <input
+                            type="color"
+                            name="gradientEnd"
+                            value={data.gradientEnd}
+                            onChange={onConfigChange}
+                            className="form-control text-14-regular"
+                        />
+                    </div>
+                )
+            }
         }
+
+        {
+            if (field.name === 'strokeColor') {
+                return (
+                    <div key={field.name}>
+                        <label className="text-13-bold text-uppercase">
+                            {field.label} :
+                        </label>
+                        <input
+                            type="color"
+                            name="strokeColor"
+                            value={data.strokeColor}
+                            onChange={onConfigChange}
+                            className="form-control text-14-regular"
+                        />
+                    </div>
+                );
+            }
+        }
+
 
         if (field.type === 'switch') {
             const isChecked = data?.[field.name] || false
@@ -432,10 +480,10 @@ const NodeConfigurator = () => {
                 </p>
                 <>
                     {fieldsToRender.map((field) => getInputField(field, data))}
-                    
+
                     {/* ADD SUB SYSTEM SELECT BOX HERE - IT WILL APPEAR FOR ALL NODES */}
                     {renderSubSystemSelect(data)}
-                    
+
                     <div className="d-flex align-items-center flex-wrap mt-2 gap-2">
                         <button
                             className={`${styles.primaryBlueButton} text-14-regular text-uppercase`}

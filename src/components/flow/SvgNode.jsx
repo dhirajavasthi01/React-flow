@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './SvgNode.module.scss';
 
-const SvgNode = ({ 
+const SvgNode = ({
   id,
   data,
   svgPath,
@@ -10,8 +10,8 @@ const SvgNode = ({
   HandlesComponent,
   isHighlighted = false,
 }) => {
-  const { 
-    nodeColor = defaultNodeColor, 
+  const {
+    nodeColor = defaultNodeColor,
     strokeColor = defaultStrokeColor,
     tag,
     subTag
@@ -21,43 +21,90 @@ const SvgNode = ({
   const [useDefaultSvgColors, setUseDefaultSvgColors] = useState(true);
   const svgContainerRef = useRef(null);
 
-  const processSvg = (svgText, fillColor, strokeColor, isHighlighted, useDefaultColors = false) => {
+  const processSvg = (svgText, fillColor, strokeColor, isHighlighted, useDefaultColors = false, gradientStart, gradientEnd, nodeId) => {
     try {
       const parser = new DOMParser();
       const doc = parser.parseFromString(svgText, 'image/svg+xml');
       const svgElement = doc.documentElement;
-      
-      // Use 100% width and height to fill the parent container
-      svgElement.setAttribute('width', '100%');
-      svgElement.setAttribute('height', '100%');
-      svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-      
-      // Add highlight class if isHighlighted is true
+
+      // --- calculate bounding box ---
+      // create a throwaway <svg> in memory so getBBox works
+       const tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        tempSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        tempSvg.style.position = "absolute";
+        tempSvg.style.visibility = "hidden";
+        tempSvg.style.width = "0";
+        tempSvg.style.height = "0";
+        document.body.appendChild(tempSvg);
+        Array.from(svgElement.childNodes).forEach(node => tempSvg.appendChild(node.cloneNode(true)));
+        const bbox = tempSvg.getBBox();
+        document.body.removeChild(tempSvg);
+        svgElement.setAttribute("viewBox", `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+        svgElement.setAttribute("width", "100%");
+        svgElement.setAttribute("height", "100%");
+        svgElement.setAttribute("preserveAspectRatio", "none");
+
+      // highlight
       if (isHighlighted) {
         const existingClass = svgElement.getAttribute('class') || '';
         svgElement.setAttribute('class', `${existingClass} ${styles.highlighted}`.trim());
       }
-      
-      // Only apply custom colors if not using default SVG colors
-      if (!useDefaultColors) {
-        const elementsWithFill = svgElement.querySelectorAll('[fill]');
-        elementsWithFill.forEach(el => {
-          if (el.getAttribute('fill') !== 'none') {
-            el.setAttribute('fill', fillColor);
+        const gradientId = `customGradient-${nodeId}`;
+      // --- Gradient ---
+      if (!useDefaultColors && gradientStart && gradientEnd) {
+        const defs = doc.createElementNS("http://www.w3.org/2000/svg", "defs");
+        const linearGrad = doc.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+        linearGrad.setAttribute("id", gradientId);
+        linearGrad.setAttribute("x1", "0%");
+        linearGrad.setAttribute("y1", "0%");
+        linearGrad.setAttribute("x2", "100%");
+        linearGrad.setAttribute("y2", "0%");
+
+        const stop1 = doc.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop1.setAttribute("offset", "0%");
+        stop1.setAttribute("stop-color", gradientStart);
+        linearGrad.appendChild(stop1);
+
+        const stop2 = doc.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop2.setAttribute("offset", "100%");
+        stop2.setAttribute("stop-color", gradientEnd);
+        linearGrad.appendChild(stop2);
+
+        defs.appendChild(linearGrad);
+        svgElement.insertBefore(defs, svgElement.firstChild);
+
+        svgElement.querySelectorAll("[fill]").forEach(el => {
+          if (el.getAttribute("fill") !== "none") {
+            el.setAttribute("fill", `url(#${gradientId})`);
           }
         });
-        
-        const elementsWithStroke = svgElement.querySelectorAll('[stroke]');
-        elementsWithStroke.forEach(el => {
-          if (el.getAttribute('stroke') !== 'none') {
-            el.setAttribute('stroke', strokeColor);
+        svgElement.querySelectorAll("[stroke]").forEach(el => {
+          if (el.getAttribute("stroke") !== "none") {
+            el.setAttribute("stroke", strokeColor);
           }
+        });
+      } else if (!useDefaultColors) {
+        svgElement.querySelectorAll("[fill]").forEach(el => {
+          if (el.getAttribute("fill") !== "none") el.setAttribute("fill", '#customGradient');
+        });
+        svgElement.querySelectorAll("[stroke]").forEach(el => {
+          if (el.getAttribute("stroke") !== "none") el.setAttribute("stroke", strokeColor);
         });
       }
-      
+
+      // recolor
+      // if (!useDefaultColors) {
+      //   svgElement.querySelectorAll('[fill]').forEach(el => {
+      //     if (el.getAttribute('fill') !== 'none') el.setAttribute('fill', fillColor);
+      //   });
+      //   svgElement.querySelectorAll('[stroke]').forEach(el => {
+      //     if (el.getAttribute('stroke') !== 'none') el.setAttribute('stroke', strokeColor);
+      //   });
+      // }
+
       return svgElement.outerHTML;
-    } catch (error) {
-      console.error('Error processing SVG:', error);
+    } catch (err) {
+      console.error('Error processing SVG:', err);
       return svgText;
     }
   };
@@ -67,9 +114,9 @@ const SvgNode = ({
       try {
         const response = await fetch(svgPath);
         let svgText = await response.text();
-        
+
         // Do not set explicit dimensions on the SVG here, let CSS handle it
-        svgText = processSvg(svgText, nodeColor, strokeColor, isHighlighted, useDefaultSvgColors);
+        svgText = processSvg(svgText, nodeColor, strokeColor, isHighlighted, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id);
         console.log(svgText)
         setSvgContent(svgText);
       } catch (error) {
@@ -79,13 +126,20 @@ const SvgNode = ({
     };
 
     fetchSvg();
-  }, [svgPath, isHighlighted, nodeColor, strokeColor, useDefaultSvgColors]);
+  }, [svgPath, isHighlighted, nodeColor, strokeColor, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id]);
+
+  // useEffect(() => {
+  //   if (useDefaultSvgColors && (nodeColor !== defaultNodeColor || strokeColor !== defaultStrokeColor)) {
+  //     setUseDefaultSvgColors(false);
+  //   }
+  // }, [nodeColor, strokeColor, defaultNodeColor, defaultStrokeColor]);
+
 
   useEffect(() => {
-    if (useDefaultSvgColors && (nodeColor !== defaultNodeColor || strokeColor !== defaultStrokeColor)) {
+    if (useDefaultSvgColors && (nodeColor !== defaultNodeColor || strokeColor !== defaultStrokeColor || data.gradientStart || data.gradientEnd)) {
       setUseDefaultSvgColors(false);
     }
-  }, [nodeColor, strokeColor, defaultNodeColor, defaultStrokeColor]);
+  }, [nodeColor, strokeColor, defaultNodeColor, defaultStrokeColor, data.gradientStart, data.gradientEnd]);
 
   return (
     <div
@@ -102,9 +156,9 @@ const SvgNode = ({
       {/* Tag label if provided */}
       {tag && tag.trim() !== '' && (
         <div style={{ marginBottom: '8px', textAlign: 'center' }}>
-          <p style={{ 
-            margin: 0, 
-            fontSize: '14px', 
+          <p style={{
+            margin: 0,
+            fontSize: '14px',
             fontWeight: 'regular',
             wordBreak: 'break-word'
           }}>
@@ -116,8 +170,8 @@ const SvgNode = ({
       {/* SVG with customization */}
       <div
         ref={svgContainerRef}
-        style={{ 
-          position: 'relative', 
+        style={{
+          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -126,7 +180,7 @@ const SvgNode = ({
         }}
       >
         {svgContent ? (
-          <div 
+          <div
             dangerouslySetInnerHTML={{ __html: svgContent }}
             style={{
               width: '100%',
@@ -137,9 +191,9 @@ const SvgNode = ({
             }}
           />
         ) : (
-          <img 
-            src={svgPath} 
-            alt="Node" 
+          <img
+            src={svgPath}
+            alt="Node"
             style={{
               width: '100%',
               height: '100%',
@@ -148,12 +202,12 @@ const SvgNode = ({
             className={` ${isHighlighted ? styles.highlighted : ''}`}
           />
         )}
-        
+
         {/* Handles if provided - pass node dimensions */}
         {HandlesComponent && (
-          <HandlesComponent 
-            id={id} 
-            containerRef={svgContainerRef} 
+          <HandlesComponent
+            id={id}
+            containerRef={svgContainerRef}
           />
         )}
       </div>
@@ -161,9 +215,9 @@ const SvgNode = ({
       {/* Subtag label if provided */}
       {subTag && subTag.trim() !== '' && (
         <div style={{ marginTop: '8px', textAlign: 'center' }}>
-          <p style={{ 
-            margin: 0, 
-            fontSize: '14px', 
+          <p style={{
+            margin: 0,
+            fontSize: '14px',
             fontWeight: 'regular',
             wordBreak: 'break-word'
           }}>

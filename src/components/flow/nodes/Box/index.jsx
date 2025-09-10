@@ -26,8 +26,8 @@ export const BoxNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        width: 100,
-        height: 200,
+        // width: 100,
+        // height: 200,
     },
 };
 

@@ -24,8 +24,8 @@ export const CompressorNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        width: 20,
-        height: 20,
+        // width: 20,
+        // height: 20,
     },
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ReactFlowProvider } from '@xyflow/react';
 import Network from '../pages/network/Network';
-import NodeToolbarExample from '../pages/demo/Demo';
+// import NodeToolbarExample from '../pages/demo/Demo';
 
 
 const HomeRouter = () => {
@@ -17,14 +17,14 @@ const HomeRouter = () => {
          
         }
       />
-      <Route
+      {/* <Route
         path="demo"
         element={
           
             <NodeToolbarExample />
          
         }
-      />
+      /> */}
     </Routes>
   );
 };

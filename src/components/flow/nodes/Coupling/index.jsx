@@ -10,6 +10,7 @@ export const CouplingNodeFieldConfig = {
     fields: [
         { label: "Is Active", name: "isActive", type: "switch" },
         { label: "Node Color", name: "nodeColor", type: "color" },
+        { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Width", name: "width", type: "number", min: 100 },
         { label: "Height", name: "height", type: "number", min: 100 },
     ],
@@ -25,8 +26,9 @@ export const CouplingNodeConfig = {
         linkedTag: null,
         subSystem: null,
         nodeColor: "#a9a6a6",
-        width: 230,
-        height: 260,
+        strokeColor: "#000000",
+        // width: 230,
+        // height: 260,
     },
 };
 
