@@ -6,7 +6,7 @@ import NodesList from './NodesList'
 import { highlightedNodeTypeAtom, showHandlesAtom, subSystemListAtom } from '../../pages/network/store'
 import { useRecoilState } from 'recoil'
 
-const App = ({ isDeveloperMode}) => {
+const App = () => {
   const [highlightedNodeType, setHighlightedNodeType] = useRecoilState(highlightedNodeTypeAtom);
   const [subSystemList] = useRecoilState(subSystemListAtom);
   const [show, toggle] = useRecoilState(showHandlesAtom)
@@ -21,25 +21,14 @@ const App = ({ isDeveloperMode}) => {
   return (
     <div className={styles.flowMainContainer}>
       <div className={styles.flowContainer}>
-        <div className={`${styles.flowContainer_left}`} style={style.leftSection}>
-          <div id='node-list' className={`${styles.leftTopSection}`} style={style.topLeft}>
-          <div className={`${styles.leftTopSection__scrollContainer}`} >
+        <div className={`${styles.flowContainer_left}`}>
+        <div id='node-list' className={`${styles.leftSection}`}>
+        <div className={`${styles.leftTopSection__scrollContainer}`} >
             <NodesList />
-          </div>
-          </div>
-           <div className={`${styles.leftBottomSection}`} style={style.bottomLeft}>
-            <div className={`${styles.scrollContainer}`}>
-              <NodeConfigurator/>
-            </div>
         </div>
         </div>
-
-        <div
-          className={`${styles.flowContainer_right}`}
-          style={style.rightSection}
-          id="network-flow"
-          data-testid="network-flow"
-        >
+        </div>
+        <div className={`${styles.flowContainer_middle}`}>
           {true && (
             <button
               className={`${styles.primaryBlueButton} ${styles.hideHandleBtn} text-14-regular text-uppercase`}
@@ -53,6 +42,13 @@ const App = ({ isDeveloperMode}) => {
            <ReactFlowProvider>
              <Flow />
            </ReactFlowProvider>
+        </div>
+         <div className={`${styles.flowContainer_right}`}>
+         <div className={`${styles.rightSection}`}>
+            <div className={`${styles.scrollContainer}`}>
+              <NodeConfigurator/>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -76,24 +72,5 @@ const App = ({ isDeveloperMode}) => {
   )
 }
 
-const style = {
-  leftSection: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  topLeft: {
-    backgroundColor: '#e3e3e3',
-    boxSizing: 'border-box',
-  },
-  bottomLeft: {
-    backgroundColor: '#dcdcdc',
-    boxSizing: 'border-box',
-  },
-  rightSection: {
-    backgroundColor: '#b8b8b0ff',
-    boxSizing: 'border-box',
-    position: 'relative',
-  },
-}
 
 export default App

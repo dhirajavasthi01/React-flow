@@ -68,12 +68,13 @@
   padding: 1vmin;
   overflow-y: hidden;
   border-radius: 1vmin;
+  background-color: #009FDF;
 
   &_left {
-    width: 90vmin;
-
-    .leftTopSection {
-      height: 40%;
+    width: 50vmin;
+    background-color: #f9f9f9;
+    .leftSection {
+      height: 100%;
       padding: 1.5vmin .75vmin 1.5vmin 1.5vmin;
 
       &_scrollContainer {
@@ -102,30 +103,14 @@
         }
       }
     }
-
-    .leftBottomSection {
-      height: 60%;
-      padding: 1.5vmin .75vmin;
-      border-top: 1px solid #444445;
-
-      .scrollContainer {
-        padding: 0 .75vmin;
-        height: 100%;
-        overflow-y: auto;
-      }
-    }
   }
-
-  &_right {
-    position: relative;
-    width: calc(100% - 40vmin);
-    flex-grow: 1;
-
+  &_middle{
+    width: calc(100% - 100vmin);
     .hideHandleBtn {
       width: 16vmin;
       position: absolute;
-      right: 1vmin;
-      top: 1vmin;
+      right: 54vmin;
+      top: 8vmin;
       z-index: 9;
       color: #FFFFFF;
     }
@@ -136,6 +121,24 @@
       top: 1vmin;
       z-index: 9;
       color: #FFFFFF;
+    }
+  }
+  &_right{
+    position: relative;
+     width: 50vmin;
+    flex-grow: 1;
+
+      background-color: #f9f9f9;
+      .rightSection {
+      height: 60%;
+      padding: 1.5vmin .75vmin;
+      border-top: 1px solid #444445;
+
+      .scrollContainer {
+        padding: 0 .75vmin;
+        height: 100%;
+        overflow-y: auto;
+      }
     }
   }
 }

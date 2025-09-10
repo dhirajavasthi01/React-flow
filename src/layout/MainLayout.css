@@ -14,22 +14,25 @@
 }
 
 .header-div {
+  background-color:rgb(154, 154, 224);
   height: 4vh;
   background-image: linear-gradient(130deg, #0047bb 0%, var(--primary-blue) 100%);
 }
 
 .header {
   height: 6.5vh;
+  background-color: cadetblue;
 }
 
 .content {
   flex: 1;
   display: flex;
   background-color: var(--primary-white);
-}
+  }
 
 .sidebar {
   width: 19vmin;
+  background-color: pink;
 }
 
 .main {
