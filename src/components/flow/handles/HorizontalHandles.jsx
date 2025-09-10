@@ -56,12 +56,14 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
 
   // Handle styles
   const handleStyle = {
-    position: 'absolute',
+    // position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
     opacity: showHandles ? 1 : 0,
     transition: 'opacity 0.3s ease',
   }
+
+console.log(handlePosition.left, "handlePosition")
 
   return (
     <>
@@ -73,7 +75,8 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
         id={`${id}-target-handle-left`}
         style={{
           ...handleStyle,
-          left: `${handlePosition.left}px`,
+          // left: `${handlePosition.left}px`,
+          left: -4
         }}
       />
 
@@ -85,7 +88,8 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
         id={`${id}-target-handle-right`}
         style={{
           ...handleStyle,
-          right: `${handlePosition.right}px`,
+          // right: `${handlePosition.right}px`,
+          right: -4
         }}
       />
     </>
