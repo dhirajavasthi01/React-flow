@@ -283,7 +283,7 @@ const NodeConfigurator = () => {
             )
         }
 
-        if (field.type === 'color') {
+        if (field.name === 'color') {
             return (
                 <div key={field.name}>
                     <label className="text-13-bold text-uppercase">

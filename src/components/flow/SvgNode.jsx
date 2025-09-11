@@ -12,6 +12,7 @@ const SvgNode = ({
 }) => {
   const {
     nodeColor = defaultNodeColor,
+    color = defaultNodeColor,
     strokeColor = defaultStrokeColor,
     tag,
     subTag
@@ -51,7 +52,7 @@ const SvgNode = ({
       }
         const gradientId = `customGradient-${nodeId}`;
       // --- Gradient ---
-    if (!useDefaultColors && gradientStart && gradientEnd) {
+    if (gradientStart && gradientEnd) {
         const defs = doc.createElementNS("http://www.w3.org/2000/svg", "defs");
         const linearGrad = doc.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
         linearGrad.setAttribute("id", gradientId);
@@ -88,9 +89,9 @@ const SvgNode = ({
             el.setAttribute("stroke", strokeColor);
           }
         });
-      } else if (!useDefaultColors) {
+      } else if (fillColor) {
         svgElement.querySelectorAll("[fill]").forEach(el => {
-          if (el.getAttribute("fill") !== "none") el.setAttribute("fill", '#customGradient');
+          if (el.getAttribute("fill") !== "none") el.setAttribute("fill", fillColor);
         });
         svgElement.querySelectorAll("[stroke]").forEach(el => {
           if (el.getAttribute("stroke") !== "none") el.setAttribute("stroke", strokeColor);
@@ -121,7 +122,7 @@ const SvgNode = ({
         let svgText = await response.text();
 
         // Do not set explicit dimensions on the SVG here, let CSS handle it
-        svgText = processSvg(svgText, nodeColor, strokeColor, isHighlighted, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id);
+        svgText = processSvg(svgText,color, strokeColor, isHighlighted, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id);
         console.log(svgText)
         setSvgContent(svgText);
       } catch (error) {
@@ -131,7 +132,7 @@ const SvgNode = ({
     };
 
     fetchSvg();
-  }, [svgPath, isHighlighted, nodeColor, strokeColor, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id]);
+  }, [svgPath, isHighlighted, color, strokeColor, useDefaultSvgColors, data.gradientStart, data.gradientEnd, id]);
 
   // useEffect(() => {
   //   if (useDefaultSvgColors && (nodeColor !== defaultNodeColor || strokeColor !== defaultStrokeColor)) {
