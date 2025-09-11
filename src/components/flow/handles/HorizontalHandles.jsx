@@ -13,31 +13,31 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
     const updateHandlePosition = () => {
       const container = containerRef.current;
       const svgElement = container.querySelector('svg') || container.querySelector('img');
-      
+
       if (!svgElement) return;
-      
+
       // Get the bounding rectangle of the SVG element
       const svgRect = svgElement.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-      
+
       // Calculate dynamic offset based on node size
       // Base offset for default size (100x200)
       const baseOffset = 10;
-      
+
       // Scale offset based on node width (proportional scaling)
       const widthScale = nodeWidth / 100; // 100 is default width
       const heightScale = nodeHeight / 200; // 200 is default height
-      
+
       // Use average scaling or prioritize width scaling
       const scaleFactor = (widthScale + heightScale) / 2;
-      
+
       // Calculate dynamic offset
       const dynamicOffset = baseOffset * scaleFactor;
-      
+
       // Calculate handle positions to be on the SVG stroke
       const leftPosition = svgRect.left - containerRect.left + dynamicOffset;
       const rightPosition = containerRect.right - svgRect.right + dynamicOffset;
-      
+
       setHandlePosition({
         left: leftPosition,
         right: rightPosition
@@ -75,7 +75,9 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
         style={{
           ...handleStyle,
           // left: `${handlePosition.left}px`,
-          left: -4
+          left: -4,
+          height: '42px',
+          width: '42px'
         }}
       />
 
@@ -88,7 +90,9 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
         style={{
           ...handleStyle,
           // right: `${handlePosition.right}px`,
-          right: -4
+          right: -4,
+          height: '42px',
+          width: '42px'
         }}
       />
     </>
