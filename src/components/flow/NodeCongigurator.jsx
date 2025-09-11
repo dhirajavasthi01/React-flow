@@ -4,7 +4,7 @@ import Select from 'react-select'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import styles from './flow.module.scss'
 
-import { edgeOptions, text_box_resources } from './utils'
+import { edgeOptions, extractColorsFromSvg, text_box_resources } from './utils'
 
 import {
     AppAtom,
@@ -29,7 +29,7 @@ import { BoxNodeFieldConfig } from './nodes/Box'
 const nodeTypesConfig = {
     'mp-node': MpNodeFieldConfig,
     'boiler-node': BoilerNodeFieldConfig,
-    'bearing-node':BearingNodeFieldConfig,
+    'bearing-node': BearingNodeFieldConfig,
     'coupling-node': CouplingNodeFieldConfig,
     'compressor-node': CompressorNodeFieldConfig,
     'box-node': BoxNodeFieldConfig,
@@ -87,6 +87,7 @@ const NodeConfigurator = () => {
     const selectedPage = useRecoilValue(selectedPageAtom)
     const allTagsDataList = useRecoilValue(allTagsDataAtom)
     const subSystemList = useRecoilValue(subSystemListAtom) // ADD THIS
+    const [extractedColors, setExtractedColors] = useState(null)
     const tagData = allTagsDataList?.find(
         (x) => x.tagId && x.tagId == config?.data?.linkedTag,
     )
@@ -101,6 +102,14 @@ const NodeConfigurator = () => {
         setSelectedTag({})
         setShowLinkModal(false)
     }, [selectedPage, setConfig, setSelectedEdgeId, setSelectedNodeId])
+
+    useEffect(() => {
+        if (config?.data?.svgPath) {
+            extractColorsFromSvg(config.data.svgPath).then((colors) => {
+                setExtractedColors(colors)
+            })
+        }
+    }, [config?.data?.svgPath])
 
     function onSaveLinkModal() {
         if (selectedNodeId && selectedTag?.tagId) {
@@ -144,6 +153,19 @@ const NodeConfigurator = () => {
         }))
     }
 
+    const handleColorChange = (e, counterpartName, counterpartValue) => {
+        onConfigChange(e);
+        const syntheticEvent = {
+            target: {
+                name: counterpartName,
+                value: counterpartValue,
+                type: 'color',
+                checked: false,
+            },
+        };
+        onConfigChange(syntheticEvent);
+    };
+    
     const onConfigChange = (event) => {
         const { name, value, type, checked } = event.target
         if (name === 'template') {
@@ -261,49 +283,61 @@ const NodeConfigurator = () => {
             )
         }
 
-        // if (field.type === 'color') {
-        //     return (
-        //         <div key={field.name}>
-        //             <label className="text-13-bold text-uppercase">
-        //                 {field.label} :{' '}
-        //             </label>
-        //             <input
-        //                 className="form-control text-14-regular "
-        //                 type="color"
-        //                 name={field.name}
-        //                 value={data?.[field.name] || ''}
-        //                 onChange={onConfigChange}
-        //             />
-        //             <input type="color" name="gradientStart" value={data.gradientStart} onChange={onConfigChange} />
-        //             <input type="color" name="gradientEnd" value={data.gradientEnd} onChange={onConfigChange} />
-        //         </div>
-        //     )
-        // }
+        if (field.type === 'color') {
+            return (
+                <div key={field.name}>
+                    <label className="text-13-bold text-uppercase">
+                        {field.label} :{' '}
+                    </label>
+                    <input
+                        className="form-control text-14-regular "
+                        type="color"
+                        name={field.name}
+                        value={data?.[field.name] || ''}
+                        onChange={onConfigChange}
+                    />
+                </div>
+            )
+        }
 
-        {
-            if (field.name === 'nodeColor') {
-                return (
-                    <div key={field.name}>
-                        <label className="text-13-bold text-uppercase">
-                            {field.label} :
-                        </label>
-                        <input
-                            type="color"
-                            name="gradientStart"
-                            value={data.gradientStart}
-                            onChange={onConfigChange}
-                            className="form-control text-14-regular"
-                        />
-                        <input
-                            type="color"
-                            name="gradientEnd"
-                            value={data.gradientEnd}
-                            onChange={onConfigChange}
-                            className="form-control text-14-regular"
-                        />
+        if (field.name === 'nodeColor') {
+            const colors = [
+                {
+                    name: 'gradientStart',
+                    value: data.gradientStart ?? extractedColors?.gradientStart,
+                    counterpart: 'gradientEnd',
+                },
+                {
+                    name: 'gradientEnd',
+                    value: data.gradientEnd ?? extractedColors?.gradientEnd,
+                    counterpart: 'gradientStart',
+                },
+            ];
+            return (
+                <div key={field.name}>
+                    <label className="text-13-bold text-uppercase">
+                        {field.label} :
+                    </label>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        {colors.map(({ name, value, counterpart }) => (
+                            <input
+                                key={name}
+                                type="color"
+                                name={name}
+                                value={value}
+                                onChange={(e) =>
+                                    handleColorChange(
+                                        e,
+                                        counterpart,
+                                        data[counterpart] ?? extractedColors?.[counterpart]
+                                    )
+                                }
+                                className="form-control text-14-regular"
+                            />
+                        ))}
                     </div>
-                )
-            }
+                </div>
+            )
         }
 
         {

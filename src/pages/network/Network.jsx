@@ -6,7 +6,6 @@ import App from '../../components/flow/App'
 
 export default function Network() {
   const [isDeveloperMode, setDeveloperMode] = useRecoilState(developerModeAtom)
-  console.log("isDeveloperMode =>", isDeveloperMode)
 
   const handleClick = () => {
     setDeveloperMode(!isDeveloperMode)

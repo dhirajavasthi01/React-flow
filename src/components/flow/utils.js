@@ -1,3 +1,58 @@
+export const extractColorsFromSvg = async (svgPath) => {
+  try {
+    const response = await fetch(svgPath);
+    const svgText = await response.text();
+    
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+    const svgElement = doc.documentElement;
+    
+    let gradientStart = null;
+    let gradientEnd = null;
+    let fillColor = null;
+    
+    // Check for gradients
+    const gradients = svgElement.querySelectorAll('linearGradient, radialGradient');
+    if (gradients.length > 0) {
+      const gradient = gradients[0];
+      const stops = gradient.querySelectorAll('stop');
+      
+      if (stops.length >= 2) {
+        gradientStart = stops[0].getAttribute('stop-color') || null;
+        gradientEnd = stops[stops.length - 1].getAttribute('stop-color') || null;
+      }
+    }
+    
+    // If no gradient found, look for fill colors
+    if (!gradientStart && !gradientEnd) {
+      const filledElements = svgElement.querySelectorAll('[fill]:not([fill="none"]):not([fill^="url"])');
+      if (filledElements.length > 0) {
+        for (let el of filledElements) {
+          const color = el.getAttribute('fill');
+          if (color && color !== 'none' && !color.startsWith('url')) {
+            fillColor = color;
+            break;
+          }
+        }
+      }
+    }
+    
+    return {
+      gradientStart: gradientStart || fillColor,
+      gradientEnd: gradientEnd || fillColor
+    };
+    
+  } catch (error) {
+    console.error('Error extracting SVG colors:', error);
+    return {
+      gradientStart: null,
+      gradientEnd: null
+    };
+  }
+};
+
+
+
 export const text_box_resources = [
   {
     name: 'Green',

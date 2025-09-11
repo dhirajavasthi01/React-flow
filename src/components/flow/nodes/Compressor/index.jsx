@@ -3,7 +3,7 @@ import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
-import SvgNode from '../../SvgNode';
+import SvgNode from '../../SvgNode'; 
 import CompressorNodeSvg from '../../../../assets/ADFP SVG/Compressor Config 1.svg';
 
 export const CompressorNodeFieldConfig = {
@@ -24,13 +24,14 @@ export const CompressorNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
+        svgPath: CompressorNodeSvg,
         // width: 20,
         // height: 20,
     },
 };
 
 export const CompressorNode = ({ data, id, selected }) => {
-    const { isActive, linkedTag, subSystem } = data;
+    const { isActive, linkedTag, subSystem ,svgPath } = data;
 
     // Use the useReactFlow hook to get access to the setNodes function
     const { setNodes } = useReactFlow();
@@ -78,7 +79,7 @@ export const CompressorNode = ({ data, id, selected }) => {
             <SvgNode
                 id={id}
                 data={data}
-                svgPath={CompressorNodeSvg}
+                svgPath={svgPath}
                 defaultWidth={data.width}
                 defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"

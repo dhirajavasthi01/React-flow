@@ -70,7 +70,6 @@ function Flow() {
   const params = useParams();
   const appContext = useRecoilValue(AppAtom);
   const [networkFlowData, setNetworkFlowData] = useRecoilState(networkFlowDataAtom);
-  console.log('networkFlowData =>', networkFlowData);
   const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
   const [isPageDataLoading, setPageDataLoading] = useState(false);
   const [newNode, setNewNode] = useRecoilState(newNodeAtom);
@@ -113,7 +112,6 @@ function Flow() {
           fitView({ duration: 800 });
         }, 100);
       } catch (error) {
-        console.error('Error loading initial data:', error);
         setNodes([]);
         setEdges([]);
       } finally {
@@ -130,7 +128,7 @@ function Flow() {
   }, [fitView]);
 
   useEffect(() => {
-    if (nodes.length > 0) {
+    if (nodes.length > 0 && !isDeveloperMode) {
       fitViewWithPadding();
     }
   }, [nodes.length, fitViewWithPadding]);
@@ -246,7 +244,6 @@ const onNodesChange = useCallback(
 
   useEffect(() => {
     if (shouldUpdateConfig && selectedNodeId) {
-      console.log('Updating node with config:', config);
       const updatedNodes = nodes.map((node) =>
         node.id === selectedNodeId
           ? {

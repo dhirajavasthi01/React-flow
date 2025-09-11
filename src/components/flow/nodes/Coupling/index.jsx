@@ -27,13 +27,14 @@ export const CouplingNodeConfig = {
         subSystem: null,
         nodeColor: "#a9a6a6",
         strokeColor: "#000000",
+        svgPath: CouplingNodeSvg,
         // width: 230,
         // height: 260,
     },
 };
 
 const CouplingNode = ({ data, id, selected }) => {
-    const { isActive, linkedTag, subSystem } = data;
+    const { isActive, linkedTag, subSystem, svgPath } = data;
 
     // Use the useReactFlow hook to get access to the setNodes function
     const { setNodes } = useReactFlow();
@@ -81,7 +82,7 @@ const CouplingNode = ({ data, id, selected }) => {
             <SvgNode
                 id={id}
                 data={data}
-                svgPath={CouplingNodeSvg}
+                svgPath={svgPath}
                 defaultWidth={data.width}
                 defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"

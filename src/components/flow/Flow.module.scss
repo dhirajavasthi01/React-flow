@@ -72,6 +72,7 @@
 
   &_left {
     width: 50vmin;
+    height: 100%;
     background-color: #f9f9f9;
     .leftSection {
       height: 100%;
@@ -105,12 +106,13 @@
     }
   }
   &_middle{
+    position: relative;
     width: calc(100% - 100vmin);
     .hideHandleBtn {
       width: 16vmin;
       position: absolute;
-      right: 54vmin;
-      top: 8vmin;
+      right: 1vmin;
+      top: 1vmin;
       z-index: 9;
       color: #FFFFFF;
     }
@@ -125,7 +127,8 @@
   }
   &_right{
     position: relative;
-     width: 50vmin;
+    width: 50vmin;
+    height: 100%;
     flex-grow: 1;
 
       background-color: #f9f9f9;

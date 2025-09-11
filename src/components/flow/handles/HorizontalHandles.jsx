@@ -63,7 +63,6 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
     transition: 'opacity 0.3s ease',
   }
 
-console.log(handlePosition.left, "handlePosition")
 
   return (
     <>

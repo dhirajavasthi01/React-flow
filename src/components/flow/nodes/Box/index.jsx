@@ -8,11 +8,9 @@ import BoxNodeSvg from '../../../../assets/ADFP SVG/Box.svg';
 
 export const BoxNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "color" },
+        { label: "Node Color", name: "color", type: "color" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
-        { label: "Width", name: "width", type: "number", min: 80 },
-        { label: "Height", name: "height", type: "number", min: 100 },
     ],
     showLinkModal: true,
 };
@@ -26,13 +24,14 @@ export const BoxNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
+        svgPath: BoxNodeSvg,
         // width: 100,
         // height: 200,
     },
 };
 
 const BoxNode = ({ data, id, selected }) => {
-    const { isActive, linkedTag, subSystem } = data;
+    const { isActive, linkedTag, subSystem, svgPath } = data;
 
     // Use the useReactFlow hook to get access to the setNodes function
     const { setNodes } = useReactFlow();
@@ -80,7 +79,7 @@ const BoxNode = ({ data, id, selected }) => {
             <SvgNode
                 id={id}
                 data={data}
-                svgPath={BoxNodeSvg}
+                svgPath={svgPath}
                 defaultWidth={data.width}
                 defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"

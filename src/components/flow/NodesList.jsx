@@ -1,38 +1,48 @@
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styles from './Flow.module.scss';
+
 import {
   nodeConfigAtom,
   newNodeAtom,
   selectedNodeIdAtom,
   selectedEdgeIdAtom,
   selectedPageAtom,
-  dragNodeTypeAtom, 
+  dragNodeTypeAtom,
   AppAtom
-} from '../../pages/network/store'
+} from '../../pages/network/store';
+
+// Node Configs
 import { BoilerNodeConfig } from './nodes/Boilder';
 import { MpNodeConfig } from './nodes/MpNode';
 import { BearingNodeConfig } from './nodes/Bearing';
 import { CouplingNodeConfig } from './nodes/Coupling';
-import BearingNodeSvg from '../../../public/bearing_node.svg' ;
 import { CompressorNodeConfig } from './nodes/Compressor';
 import { BoxNodeConfig } from './nodes/Box';
 
+// SVG Imports (🔁 Update these paths based on your actual structure)
+import BoilerSvg from '../../assets/ADFP SVG/Box.svg';
+import MpNodeSvg from '../../assets/ADFP SVG/Box.svg';
+import BearingNodeSvg from '../../assets/ADFP SVG/Compressor Bearing.svg';
+import CouplingNodeSvg from '../../assets/ADFP SVG/Coupling.svg';
+import CompressorNodeSvg from '../../assets/ADFP SVG/Compressor Config 1.svg';
+import BoxNodeSvg from '../../assets/ADFP SVG/Box.svg';
+
+
+// Add SVG references to each node
 export const allNodes = [
-  BoilerNodeConfig,
-  MpNodeConfig,
-  BearingNodeConfig,
-  CouplingNodeConfig,
-  CompressorNodeConfig,
-  BoxNodeConfig,
-  
-
-
-]
+  { ...BoilerNodeConfig, svg: BoilerSvg },
+  { ...MpNodeConfig, svg: MpNodeSvg },
+  { ...BearingNodeConfig, svg: BearingNodeSvg },
+  { ...CouplingNodeConfig, svg: CouplingNodeSvg },
+  { ...CompressorNodeConfig, svg: CompressorNodeSvg },
+  { ...BoxNodeConfig, svg: BoxNodeSvg },
+];
 
 const NodesList = () => {
   const params = useParams();
-  const appContext = useRecoilValue(AppAtom); // Assuming AppAtom is also converted to Recoil
+  const appContext = useRecoilValue(AppAtom);
+
   const setConfig = useSetRecoilState(nodeConfigAtom);
   const setNewNode = useSetRecoilState(newNodeAtom);
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
@@ -48,7 +58,6 @@ const NodesList = () => {
   };
 
   const onDragStart = (event, nodeType) => {
-
     setNodeType(nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
@@ -56,28 +65,26 @@ const NodesList = () => {
   return (
     <div className={`${styles.nodeListContainer}`}>
       <h3 className="text-14-bold text-uppercase mb_1">Nodes List</h3>
-      {   allNodes.map((node) => (
+
+      <div className={styles.nodeGrid}>
+        {allNodes.map((node) => (
           <div
             data-testid={`node-${node.name}`}
             id={`node-list-${node.name}`}
             className={`${styles.nodeListItem}`}
-            style={{backgroundColor:"blue"}}
             onDragStart={(event) => onDragStart(event, node.type)}
             draggable
-            onClick={() => {
-            
-              handleNodeClick(node);
-            }}
+            onClick={() => handleNodeClick(node)}
             key={node.name}
-
           >
-            <p
-              className="mt_03 text-14-regular text-center text-uppercase text_primary_white"
-            >
-              {node.name}
-            </p>
+            <img
+              src={node.svg}
+              alt={node.name}
+              style={{ width: '40px', height: '40px' }}
+            />
           </div>
         ))}
+      </div>
     </div>
   );
 };

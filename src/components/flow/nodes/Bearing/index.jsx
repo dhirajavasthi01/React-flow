@@ -23,11 +23,12 @@ export const BearingNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
+        svgPath: BearingNodeSvg,
     },
 };
 
 export const BearingNode = ({ data, id, selected }) => {
-    const { isActive, linkedTag, subSystem } = data;
+    const { isActive, linkedTag, subSystem, svgPath } = data;
     
     // Use the useReactFlow hook
     const { setNodes } = useReactFlow();
@@ -72,7 +73,7 @@ export const BearingNode = ({ data, id, selected }) => {
             <SvgNode
                 id={id}
                 data={data}
-                svgPath={BearingNodeSvg}
+                svgPath={svgPath}
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
                 HandlesComponent={HorizontalHandles}
