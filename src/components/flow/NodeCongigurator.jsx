@@ -19,16 +19,12 @@ import {
     updateConfigAtom,
     subSystemListAtom,
 } from '../../pages/network/store'
-import { BoilerNodeFieldConfig } from './nodes/Boilder'
-import { MpNodeFieldConfig } from './nodes/MpNode'
 import { BearingNodeFieldConfig } from './nodes/Bearing'
 import { CouplingNodeFieldConfig } from './nodes/Coupling'
 import { CompressorNodeFieldConfig } from './nodes/Compressor'
 import { BoxNodeFieldConfig } from './nodes/Box'
 
 const nodeTypesConfig = {
-    'mp-node': MpNodeFieldConfig,
-    'boiler-node': BoilerNodeFieldConfig,
     'bearing-node': BearingNodeFieldConfig,
     'coupling-node': CouplingNodeFieldConfig,
     'compressor-node': CompressorNodeFieldConfig,

@@ -35,8 +35,7 @@ import {
   updateConfigAtom,
 } from '../../pages/network/store';
 
-import BoilerNode from './nodes/Boilder';
-import MpNode from './nodes/MpNode';
+
 import BearingNode from './nodes/Bearing';
 import CouplingNode from './nodes/Coupling';
 import CompressorNode from './nodes/Compressor';
@@ -58,8 +57,6 @@ const initialFlowData = {}
 // };
 // Define custom node types
 const nodeTypes = {
-  mpNode: MpNode,
-  boilerNode: BoilerNode,
   bearingNode: BearingNode,
   couplingNode: CouplingNode,
   compressorNode: CompressorNode,
