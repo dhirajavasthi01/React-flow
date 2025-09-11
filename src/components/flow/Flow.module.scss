@@ -127,7 +127,7 @@
   }
   &_right{
     position: relative;
-    width: 50vmin;
+     width: 50vmin;
     height: 100%;
     flex-grow: 1;
 
@@ -146,4 +146,23 @@
   }
 }
 
-
+.nodeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+.nodeListItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dbdedf;
+  color: #FFFFFF;
+  border-radius: .5vmin;
+  cursor: pointer;
+  padding: .5vmin;
+  height: 70px;
+  width: 70px;
+}

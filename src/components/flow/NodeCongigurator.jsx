@@ -32,11 +32,15 @@ import { CentrifugalPumpNodeFieldConfig } from './nodes/CentrifugalPump'
 import { ESVNodeFieldConfig } from './nodes/Esv'
 import { EjectorNodeFieldConfig } from './nodes/Ejector'
 import { TextBoxNodeFieldConfig } from './nodes/TextBox'
+import { NDEJournalBearingNodeFieldConfig } from './nodes/NDEJournalBearing'
+import { CompressorConfigNodeFieldConfig } from './nodes/CompressorConfig'
+import { V2NodeFieldConfig } from './nodes/V2'
 
 const nodeTypesConfig = {
     'bearing-node': BearingNodeFieldConfig,
     'coupling-node': CouplingNodeFieldConfig,
     'compressor-node': CompressorNodeFieldConfig,
+    "compressor-config-node": CompressorConfigNodeFieldConfig,
     'box-node': BoxNodeFieldConfig,
     "heat-exchanger-node": HeatExchangerNodeFieldConfig,
     "turbine-node": TurbineNodeFieldConfig,
@@ -46,6 +50,8 @@ const nodeTypesConfig = {
     "esv-node": ESVNodeFieldConfig,
     "ejector-node": EjectorNodeFieldConfig,
     "text-box-node" : TextBoxNodeFieldConfig,
+    "nde-journal-bearing-node":NDEJournalBearingNodeFieldConfig,
+    "v2-node": V2NodeFieldConfig,
 }
 const switchStyles = {
     display: 'flex',

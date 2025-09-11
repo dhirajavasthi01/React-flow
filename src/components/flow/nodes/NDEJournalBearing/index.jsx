@@ -3,47 +3,43 @@ import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
-import SvgNode from '../../SvgNode'; 
-import CompressorNodeSvg from '../../../../assets/ADFP SVG/Compressor.svg';
+import SvgNode from '../../SvgNode';
+import NDEJournalBearingSvg from '../../../../assets/ADFP SVG/NDE Journal Bearing.svg';
 
-export const CompressorNodeFieldConfig = {
+export const NDEJournalBearingNodeFieldConfig = {
     fields: [
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
-        { label: "Sub System", name: "subSystem", type: "text" },
+        { label: "Sub System", name: "subSystem", type: "text" },  
     ],
-    showLinkModal: true,
 };
 
-export const CompressorNodeConfig = {
-    name: "Compressor Node",
-    nodeType: "compressor-node",
-    type: "compressorNode",
+export const NDEJournalBearingNodeConfig = {
+    name: "NDE Journal Bearing Node",
+    nodeType: "nde-journal-bearing-node",
+    type: "ndeJournalBearingNode",
     position: { x: 0, y: 0 },
     data: {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: CompressorNodeSvg,
-        // width: 20,
-        // height: 20,
+        svgPath: NDEJournalBearingSvg,
     },
 };
 
-export const CompressorNode = ({ data, id, selected }) => {
-    const { isActive, linkedTag, subSystem ,svgPath } = data;
-
-    // Use the useReactFlow hook to get access to the setNodes function
+export const NDEJournalBearingNode = ({ data, id, selected }) => {
+    const { isActive, linkedTag, subSystem, svgPath } = data;
+    
+    // Use the useReactFlow hook
     const { setNodes } = useReactFlow();
 
     const selectedId = useRecoilValue(selectedNodeIdAtom);
     const allTagsDataList = useRecoilValue(allTagsDataAtom);
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
-    // Handle highlighting internally in the node component
-    const isHighlighted = subSystem !== null && 
-                          highlightedNodeType !== null && 
-                          highlightedNodeType === subSystem;
+    const isHighlighted = subSystem !== null &&
+                         highlightedNodeType !== null &&
+                         highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -51,14 +47,13 @@ export const CompressorNode = ({ data, id, selected }) => {
 
     const isNodeActive = tagData ? tagData?.actual == 1 : isActive;
 
-    // Callback to update the node's style after resizing
     const onResizeEnd = (_, params) => {
+        // Update the nodes in the React Flow state
         setNodes((nds) => 
             nds.map((node) => {
                 if (node.id === id) {
                     return {
                         ...node,
-                        // Update the style object with the new dimensions
                         style: { ...node.style, width: params.width, height: params.height },
                     };
                 }
@@ -69,19 +64,16 @@ export const CompressorNode = ({ data, id, selected }) => {
 
     return (
         <>
-            {/* The NodeResizer component should wrap the node content */}
             <NodeResizer 
                 isVisible={selected} 
                 minWidth={10} 
-                minHeight={20}
+                minHeight={20} 
                 onResizeEnd={onResizeEnd}
             />
             <SvgNode
                 id={id}
                 data={data}
                 svgPath={svgPath}
-                defaultWidth={data.width}
-                defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
                 HandlesComponent={HorizontalHandles}
@@ -93,4 +85,4 @@ export const CompressorNode = ({ data, id, selected }) => {
     );
 };
 
-export default memo(CompressorNode);
+export default memo(NDEJournalBearingNode);

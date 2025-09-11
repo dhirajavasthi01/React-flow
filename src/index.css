@@ -26,3 +26,65 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+
+.edgeStoke-fuel {
+  stroke: rgb(255, 0, 0, 0.7) !important;
+}
+
+.edgeStoke-power {
+  stroke: rgba(169, 169, 169, 0.7) !important;
+}
+
+.edgeStoke-hp {
+  stroke: rgba(255, 165, 0, 0.7) !important;
+}
+
+.edgeStoke-mp {
+  stroke: rgba(255, 255, 0, 0.7) !important;
+}
+
+.edgeStoke-lp {
+  stroke: rgba(0, 0, 255, 0.7) !important;
+}
+
+.edgeStoke-water {
+  stroke: rgba(154, 194, 246, 0.8) !important;
+}
+
+.edgeStoke-suspect {
+  stroke: rgba(184, 52, 155, 0.8) !important;
+}
+
+.edgeStoke-clean {
+  stroke: rgba(79, 113, 190, 0.8) !important;
+}
+
+.edgeStoke-vhp {
+  stroke: rgba(255, 102, 0, 0.7) !important;
+}
+
+.edgeStoke-air {
+  stroke: rgba(153, 173, 170, 0.7) !important;
+}
+
+.edgeStoke-coolingWater {
+  stroke: rgba(66, 197, 245, 0.7) !important;
+}
+
+.edgeStoke-default {
+  stroke: rgba(0, 0, 0, 0.7) !important;
+}
+
+.flowingPipe {
+  stroke-width: 6px !important;
+  fill: none !important;
+}
+
+.flowingPipeAnimated {
+  /* Flow color */
+  stroke-width: 3px !important;
+  fill: none !important;
+  stroke-dasharray: 10 !important;
+  animation: flow 2s linear infinite !important;
+}

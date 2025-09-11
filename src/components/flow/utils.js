@@ -75,6 +75,73 @@ export const text_box_resources = [
   },
 ]
 
+const NETWORK_COLOUR_OPTIONS = {
+  default: {
+    bgColor: '#ffffff',
+    borderColor: '#000000',
+  },
+  fuel: {
+    bgColor: 'rgba(255, 0, 0, 0.5)',
+    borderColor: 'red',
+  },
+  power: {
+    bgColor: 'rgba(169, 169, 169, 0.5)',
+    borderColor: 'gray',
+  },
+  hp: {
+    bgColor: 'rgba(255, 165, 0, 0.5)',
+    borderColor: 'orange',
+  },
+  mp: {
+    bgColor: 'rgba(255, 255, 0, 0.5)',
+    borderColor: 'rgb(255, 255, 0)',
+  },
+  lp: {
+    bgColor: 'rgba(0, 0, 255, 0.5)',
+    borderColor: 'blue',
+  },
+  water: {
+    bgColor: 'rgba(154, 194, 246, 0.5)',
+    borderColor: 'rgb(154, 194, 246)',
+  },
+  suspect: {
+    bgColor: 'rgba(104, 52, 155, 0.5)',
+    borderColor: 'rgb(104, 52, 155)',
+  },
+  clean: {
+    bgColor: 'rgba(79, 113, 190, 0.5)',
+    borderColor: 'rgb(79, 113, 190)',
+  },
+  vhp: {
+    bgColor: 'rgba(255, 102, 0, 0.5)',
+    borderColor: 'rgb(255, 102, 0)',
+  },
+  air: {
+    bgColor: 'rgba(153, 173, 170, 0.5)',
+    borderColor: 'rgb(153, 173, 170)',
+  },
+  coolingWater: {
+    bgColor: 'rgba(66, 197, 245, 0.5)',
+    borderColor: 'rgb(66, 197, 245)',
+  },
+};
+
+export const EDGE_COLORS = {
+  flowingPipe: NETWORK_COLOUR_OPTIONS.default,
+  flowingPipeFuel: NETWORK_COLOUR_OPTIONS.fuel,
+  flowingPipePower: NETWORK_COLOUR_OPTIONS.power,
+  flowingPipeHp: NETWORK_COLOUR_OPTIONS.hp,
+  flowingPipeMp: NETWORK_COLOUR_OPTIONS.mp,
+  flowingPipeLp: NETWORK_COLOUR_OPTIONS.lp,
+  flowingPipeWater: NETWORK_COLOUR_OPTIONS.water,
+  flowingPipSuspectCondensate: NETWORK_COLOUR_OPTIONS.suspect,
+  flowingPipeCleanCondensate: NETWORK_COLOUR_OPTIONS.clean,
+  flowingPipeVhp: NETWORK_COLOUR_OPTIONS.vhp,
+  flowingPipeAir: NETWORK_COLOUR_OPTIONS.air,
+  flowingPipeCoolingWater: NETWORK_COLOUR_OPTIONS.coolingWater,
+};
+
+
 export const edgeOptions = [
   {
     name: 'Default',
@@ -84,61 +151,61 @@ export const edgeOptions = [
   },
   {
     name: 'Fuel',
-    id: 'flowingPipeline1',
+    id: 'flowingPipeFuel',
     bgColor: 'rgba(255, 165, 0, 0.7)',
     legendSortOrder: 2,
   },
   {
     name: 'Power',
-    id: 'flowingPipelinePower',
+    id: 'flowingPipePower',
     bgColor: 'rgba(169, 169, 169, 0.7)',
     legendSortOrder: 2,
   },
   {
     name: 'HP Steam',
-    id: 'flowingPipeline4',
+    id: 'flowingPipeHp',
     bgColor: 'rgba(255, 165, 0, 0.7)',
     legendSortOrder: 3,
   },
   {
     name: 'MP Steam',
-    id: 'flowingPipeline5',
+    id: 'flowingPipeMp',
     bgColor: 'rgba(30, 144, 255, 0.7)',
     legendSortOrder: 4,
   },
   {
     name: 'LP Steam',
-    id: 'flowingPipeline6',
+    id: 'flowingPipeLp',
     bgColor: 'rgba(0, 255, 0, 0.7)',
     legendSortOrder: 5,
   },
   {
     name: 'Water',
-    id: 'flowingPipelineWater',
+    id: 'flowingPipeWater',
     bgColor: 'rgba(135, 206, 250, 0.7)',
     legendSortOrder: 6,
   },
   {
     name: 'Suspect Condensate',
-    id: 'flowingPipelineCondensate',
+    id: 'flowingPipSuspectCondensate',
     bgColor: 'rgba(152, 51, 153, 0.8)',
     legendSortOrder: 7,
   },
   {
     name: 'Clean Condensate',
-    id: 'flowingPipelineCleanCondensate',
+    id: 'flowingPipeCleanCondensate',
     bgColor: 'rgba(95, 158, 160, 0.7)',
     legendSortOrder: 8,
   },
   {
     name: 'Air',
-    id: 'flowingPipelineAir',
+    id: 'flowingPipeAir',
     bgColor: 'rgba(139, 170, 170, 0.5)',
     legendSortOrder: 13,
   },
   {
     name: 'Cooling Water',
-    id: 'flowingPipelineCoolingWater',
+    id: 'flowingPipeCoolingWater',
     bgColor: 'rgba(0, 191, 255, 0.5)',
     legendSortOrder: 14,
   },

@@ -48,6 +48,11 @@ import { CentrifugalPumpNode } from './nodes/CentrifugalPump';
 import { ESVNode } from './nodes/Esv';
 import { EjectorNode } from './nodes/Ejector';
 import { TextboxNode } from './nodes/TextBox';
+import FlowingPipeEdge from './edges/FlowingPipEdge';
+import Marker from './marker';
+import { NDEJournalBearingNode } from './nodes/NDEJournalBearing';
+import { CompressorConfigNode } from './nodes/CompressorConfig';
+import { V2Node } from './nodes/V2';
 
 function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
@@ -65,6 +70,7 @@ const nodeTypes = {
   bearingNode: BearingNode,
   couplingNode: CouplingNode,
   compressorNode: CompressorNode,
+  compressorConfigNode: CompressorConfigNode,
   boxNode: BoxNode,
   heatExchangerNode: HeatExchangerNode,
   turbineNode: TurbineNode,
@@ -74,10 +80,28 @@ const nodeTypes = {
   esvNode: ESVNode,
   ejectorNode: EjectorNode,
   textBoxNode: TextboxNode,
-  
-
-
+  ndeJournalBearingNode: NDEJournalBearingNode,
+  v2Node: V2Node,
 };
+
+const edgeTypes = {
+  flowingPipe: (props) => FlowingPipeEdge({ ...props, type: "default" }),
+  flowingPipeFuel: (props) => FlowingPipeEdge({ ...props, type: "fuel" }),
+  flowingPipePower: (props) => FlowingPipeEdge({ ...props, type: "power" }),
+  flowingPipeHp: (props) => FlowingPipeEdge({ ...props, type: "hp" }),
+  flowingPipeMp: (props) => FlowingPipeEdge({ ...props, type: "mp" }),
+  flowingPipeLp: (props) => FlowingPipeEdge({ ...props, type: "lp" }),
+  flowingPipeWater: (props) => FlowingPipeEdge({ ...props, type: "water" }),
+  flowingPipSuspectCondensate: (props) =>
+    FlowingPipeEdge({ ...props, type: "suspect" }),
+  flowingPipeCleanCondensate: (props) =>
+    FlowingPipeEdge({ ...props, type: "clean" }),
+  flowingPipeVhp: (props) => FlowingPipeEdge({ ...props, type: "vhp" }),
+  flowingPipeAir: (props) => FlowingPipeEdge({ ...props, type: "air" }),
+  flowingPipeCoolingWater: (props) =>
+    FlowingPipeEdge({ ...props, type: "coolingWater" }),
+};
+
 
 function Flow() {
   const params = useParams();
@@ -175,40 +199,40 @@ function Flow() {
     }
   }, [shouldDelete, selectedEdgeId, selectedNodeId, nodes, edges]);
 
-const onNodesChange = useCallback(
-  (changes) => {
-    if (!isDeveloperMode) return;
+  const onNodesChange = useCallback(
+    (changes) => {
+      if (!isDeveloperMode) return;
 
-    // Process the changes to update the node's data and style
-    const updatedNodes = nodes.map((node) => {
-      const resizeChange = changes.find(
-        (change) => change.type === 'resize' && change.id === node.id
-      );
+      // Process the changes to update the node's data and style
+      const updatedNodes = nodes.map((node) => {
+        const resizeChange = changes.find(
+          (change) => change.type === 'resize' && change.id === node.id
+        );
 
-      if (resizeChange) {
-        // Create a new object to maintain immutability
-        return {
-          ...node,
-          style: {
-            ...node.style,
-            width: resizeChange.dimensions.width,
-            height: resizeChange.dimensions.height,
-          },
-          data: {
-            ...node.data,
-            width: resizeChange.dimensions.width,
-            height: resizeChange.dimensions.height,
-          },
-        };
-      }
-      return node; // Return the node unchanged if it's not being resized
-    });
+        if (resizeChange) {
+          // Create a new object to maintain immutability
+          return {
+            ...node,
+            style: {
+              ...node.style,
+              width: resizeChange.dimensions.width,
+              height: resizeChange.dimensions.height,
+            },
+            data: {
+              ...node.data,
+              width: resizeChange.dimensions.width,
+              height: resizeChange.dimensions.height,
+            },
+          };
+        }
+        return node; // Return the node unchanged if it's not being resized
+      });
 
-    // Now apply all changes (including position changes, etc.) on the updated nodes
-    setNodes(applyNodeChanges(changes, updatedNodes));
-  },
-  [nodes, setNodes, isDeveloperMode],
-);
+      // Now apply all changes (including position changes, etc.) on the updated nodes
+      setNodes(applyNodeChanges(changes, updatedNodes));
+    },
+    [nodes, setNodes, isDeveloperMode],
+  );
 
   const onEdgesChange = useCallback(
     (changes) => {
@@ -260,11 +284,11 @@ const onNodesChange = useCallback(
       const updatedNodes = nodes.map((node) =>
         node.id === selectedNodeId
           ? {
-              ...node,
-              data: { ...node.data, ...config.data },
-              width: config.data.width,
-              height: config.data.height,
-            }
+            ...node,
+            data: { ...node.data, ...config.data },
+            width: config.data.width,
+            height: config.data.height,
+          }
           : node,
       );
       setNodeToUpdate(selectedNodeId);
@@ -279,10 +303,10 @@ const onNodesChange = useCallback(
       const updatedEdges = edges.map((edge) =>
         edge.id === selectedEdgeId
           ? {
-              ...edge,
-              type: config.type,
-              markerEnd: config.markerEnd,
-            }
+            ...edge,
+            type: config.type,
+            markerEnd: config.markerEnd,
+          }
           : edge,
       );
       setEdges(updatedEdges);
@@ -404,6 +428,7 @@ const onNodesChange = useCallback(
           onNodeClick={onNodeClick}
           onEdgeClick={onEdgeClick}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           fitViewOptions={{ padding: 2000 }}
           minZoom={0.05}
@@ -416,6 +441,18 @@ const onNodesChange = useCallback(
           onDragOver={onDragOver}
           style={{ backgroundColor: 'white' }}
         >
+          <Marker type="flowingPipe" />
+          <Marker type="flowingPipeFuel" />
+          <Marker type="flowingPipePower" />
+          <Marker type="flowingPipeHp" />
+          <Marker type="flowingPipeMp" />
+          <Marker type="flowingPipeLp" />
+          <Marker type="flowingPipeWater" />
+          <Marker type="flowingPipSuspectCondensate" />
+          <Marker type="flowingPipeCleanCondensate" />
+          <Marker type="flowingPipeAir" />
+          <Marker type="flowingPipeCoolingWater" />
+
           <Controls position="bottom-right" showInteractive={isDeveloperMode} />
           <Background variant={isDeveloperMode ? 'lines' : 'none'} />
         </ReactFlow>

@@ -43,7 +43,7 @@ const App = () => {
              <Flow />
            </ReactFlowProvider>
         </div>
-         <div className={`${styles.flowContainer_right}`}>
+        <div className={`${styles.flowContainer_right}`}>
          <div className={`${styles.rightSection}`}>
             <div className={`${styles.scrollContainer}`}>
               <NodeConfigurator/>
@@ -52,8 +52,7 @@ const App = () => {
         </div>
       </div>
       
-      {/* SubSystem buttons for highlighting */}
-      <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+      <div className={styles.buttonContainer} style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
         {subSystemList.map((subSystem) => (
           <button
             key={subSystem.id}
