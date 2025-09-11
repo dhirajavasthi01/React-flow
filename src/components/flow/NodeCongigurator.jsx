@@ -24,13 +24,17 @@ import { CouplingNodeFieldConfig } from './nodes/Coupling'
 import { CompressorNodeFieldConfig } from './nodes/Compressor'
 import { BoxNodeFieldConfig } from './nodes/Box'
 
+import { HeatExchangerNodeFieldConfig } from './nodes/HeatExchanger'
+import { TurbineNodeFieldConfig } from './nodes/Turbine'
+
 const nodeTypesConfig = {
     'bearing-node': BearingNodeFieldConfig,
     'coupling-node': CouplingNodeFieldConfig,
     'compressor-node': CompressorNodeFieldConfig,
     'box-node': BoxNodeFieldConfig,
+    "heat-exchanger-node": HeatExchangerNodeFieldConfig,
+    "turbine-node": TurbineNodeFieldConfig
 }
-
 const switchStyles = {
     display: 'flex',
     alignItems: 'center',

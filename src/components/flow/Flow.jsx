@@ -40,6 +40,8 @@ import BearingNode from './nodes/Bearing';
 import CouplingNode from './nodes/Coupling';
 import CompressorNode from './nodes/Compressor';
 import BoxNode from './nodes/Box';
+import { HeatExchangerNode } from './nodes/HeatExchanger';
+import { TurbineNode } from './nodes/Turbine';
 
 function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
@@ -61,6 +63,9 @@ const nodeTypes = {
   couplingNode: CouplingNode,
   compressorNode: CompressorNode,
   boxNode: BoxNode,
+  heatExchangerNode: HeatExchangerNode,
+  turbineNode: TurbineNode
+
 };
 
 function Flow() {

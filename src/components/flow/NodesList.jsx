@@ -25,6 +25,10 @@ import BearingNodeSvg from '../../assets/ADFP SVG/Compressor Bearing.svg';
 import CouplingNodeSvg from '../../assets/ADFP SVG/Coupling.svg';
 import CompressorNodeSvg from '../../assets/ADFP SVG/Compressor Config 1.svg';
 import BoxNodeSvg from '../../assets/ADFP SVG/Box.svg';
+import HeatExchangerSvg from '../../assets/ADFP SVG/S&T Exchanger.svg';
+import TurbineNodeSvg from '../../assets/ADFP SVG/Turbine.svg';
+import { HeatExchangerNodeConfig } from './nodes/HeatExchanger';
+import { TurbineNodeConfig } from './nodes/Turbine';
 
 
 // Add SVG references to each node
@@ -33,6 +37,8 @@ export const allNodes = [
   { ...CouplingNodeConfig, svg: CouplingNodeSvg },
   { ...CompressorNodeConfig, svg: CompressorNodeSvg },
   { ...BoxNodeConfig, svg: BoxNodeSvg },
+  { ...HeatExchangerNodeConfig, svg: HeatExchangerSvg },
+  {...TurbineNodeConfig, svg: TurbineNodeSvg}
 ];
 
 const NodesList = () => {
