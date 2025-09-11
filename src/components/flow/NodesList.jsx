@@ -39,6 +39,7 @@ import { ESVNodeConfig } from './nodes/Esv';
 import ESVSvg from '../../assets/ADFP SVG/ESV.svg';
 import { EjectorNodeConfig } from './nodes/Ejector';
 import EjectorSvg from '../../assets/ADFP SVG/Ejector.svg';
+import { TextBoxNodeConfig } from './nodes/TextBox';
 
 
 
@@ -57,6 +58,7 @@ export const allNodes = [
   {...CentrifugalPumpNodeConfig, svg: CentrifugalPumpSvg},
   {...ESVNodeConfig, svg: ESVSvg},
   {...EjectorNodeConfig, svg: EjectorSvg},
+  TextBoxNodeConfig
 ];
 
 const NodesList = () => {

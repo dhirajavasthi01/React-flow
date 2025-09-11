@@ -50,6 +50,17 @@ export const extractColorsFromSvg = async (svgPath) => {
     };
   }
 };
+export const EXTRA_NODE_COLORS = {
+
+  "Green": {
+    bgColor: "rgba(181, 213, 167, 0.8)",
+    borderColor: "rgb(181, 213, 167)",
+  },
+  "Blue": {
+    bgColor: "rgba(91, 155, 213, 0.8)",
+    borderColor: "rgb(91, 155, 213)",
+  },
+};
 
 
 

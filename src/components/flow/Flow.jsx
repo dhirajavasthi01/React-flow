@@ -47,6 +47,7 @@ import { KODNode } from './nodes/Kod';
 import { CentrifugalPumpNode } from './nodes/CentrifugalPump';
 import { ESVNode } from './nodes/Esv';
 import { EjectorNode } from './nodes/Ejector';
+import { TextboxNode } from './nodes/TextBox';
 
 function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
@@ -72,6 +73,7 @@ const nodeTypes = {
   centrifugalPumpNode: CentrifugalPumpNode,
   esvNode: ESVNode,
   ejectorNode: EjectorNode,
+  textBoxNode: TextboxNode,
   
 
 

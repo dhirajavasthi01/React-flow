@@ -31,6 +31,7 @@ import { KODNodeFieldConfig } from './nodes/Kod'
 import { CentrifugalPumpNodeFieldConfig } from './nodes/CentrifugalPump'
 import { ESVNodeFieldConfig } from './nodes/Esv'
 import { EjectorNodeFieldConfig } from './nodes/Ejector'
+import { TextBoxNodeFieldConfig } from './nodes/TextBox'
 
 const nodeTypesConfig = {
     'bearing-node': BearingNodeFieldConfig,
@@ -44,6 +45,7 @@ const nodeTypesConfig = {
     "centrifugal-pump-node": CentrifugalPumpNodeFieldConfig,
     "esv-node": ESVNodeFieldConfig,
     "ejector-node": EjectorNodeFieldConfig,
+    "text-box-node" : TextBoxNodeFieldConfig,
 }
 const switchStyles = {
     display: 'flex',
