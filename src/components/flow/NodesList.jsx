@@ -21,8 +21,6 @@ import { CompressorNodeConfig } from './nodes/Compressor';
 import { BoxNodeConfig } from './nodes/Box';
 
 // SVG Imports (🔁 Update these paths based on your actual structure)
-import BoilerSvg from '../../assets/ADFP SVG/Box.svg';
-import MpNodeSvg from '../../assets/ADFP SVG/Box.svg';
 import BearingNodeSvg from '../../assets/ADFP SVG/Compressor Bearing.svg';
 import CouplingNodeSvg from '../../assets/ADFP SVG/Coupling.svg';
 import CompressorNodeSvg from '../../assets/ADFP SVG/Compressor Config 1.svg';
@@ -31,8 +29,6 @@ import BoxNodeSvg from '../../assets/ADFP SVG/Box.svg';
 
 // Add SVG references to each node
 export const allNodes = [
-  { ...BoilerNodeConfig, svg: BoilerSvg },
-  { ...MpNodeConfig, svg: MpNodeSvg },
   { ...BearingNodeConfig, svg: BearingNodeSvg },
   { ...CouplingNodeConfig, svg: CouplingNodeSvg },
   { ...CompressorNodeConfig, svg: CompressorNodeSvg },
