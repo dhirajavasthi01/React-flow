@@ -29,6 +29,19 @@ import HeatExchangerSvg from '../../assets/ADFP SVG/S&T Exchanger.svg';
 import TurbineNodeSvg from '../../assets/ADFP SVG/Turbine.svg';
 import { HeatExchangerNodeConfig } from './nodes/HeatExchanger';
 import { TurbineNodeConfig } from './nodes/Turbine';
+import { SurfaceCondenserNodeConfig } from './nodes/SurfaceCondenser';
+import SurfaceCondenserSvg from '../../assets/ADFP SVG/Surface Condensor.svg';
+import { KODNodeConfig } from './nodes/Kod';
+import KODSvg from '../../assets/ADFP SVG/KOD.svg';
+import { CentrifugalPumpNodeConfig } from './nodes/CentrifugalPump';
+import CentrifugalPumpSvg from '../../assets/ADFP SVG/Centrifugal Pump.svg';
+import { ESVNodeConfig } from './nodes/Esv';
+import ESVSvg from '../../assets/ADFP SVG/ESV.svg';
+import { EjectorNodeConfig } from './nodes/Ejector';
+import EjectorSvg from '../../assets/ADFP SVG/Ejector.svg';
+
+
+
 
 
 // Add SVG references to each node
@@ -38,7 +51,12 @@ export const allNodes = [
   { ...CompressorNodeConfig, svg: CompressorNodeSvg },
   { ...BoxNodeConfig, svg: BoxNodeSvg },
   { ...HeatExchangerNodeConfig, svg: HeatExchangerSvg },
-  {...TurbineNodeConfig, svg: TurbineNodeSvg}
+  {...TurbineNodeConfig, svg: TurbineNodeSvg},
+  {...SurfaceCondenserNodeConfig, svg: SurfaceCondenserSvg},
+  {...KODNodeConfig, svg: KODSvg},
+  {...CentrifugalPumpNodeConfig, svg: CentrifugalPumpSvg},
+  {...ESVNodeConfig, svg: ESVSvg},
+  {...EjectorNodeConfig, svg: EjectorSvg},
 ];
 
 const NodesList = () => {

@@ -26,6 +26,11 @@ import { BoxNodeFieldConfig } from './nodes/Box'
 
 import { HeatExchangerNodeFieldConfig } from './nodes/HeatExchanger'
 import { TurbineNodeFieldConfig } from './nodes/Turbine'
+import { SurfaceCondenserNodeFieldConfig } from './nodes/SurfaceCondenser'
+import { KODNodeFieldConfig } from './nodes/Kod'
+import { CentrifugalPumpNodeFieldConfig } from './nodes/CentrifugalPump'
+import { ESVNodeFieldConfig } from './nodes/Esv'
+import { EjectorNodeFieldConfig } from './nodes/Ejector'
 
 const nodeTypesConfig = {
     'bearing-node': BearingNodeFieldConfig,
@@ -33,7 +38,12 @@ const nodeTypesConfig = {
     'compressor-node': CompressorNodeFieldConfig,
     'box-node': BoxNodeFieldConfig,
     "heat-exchanger-node": HeatExchangerNodeFieldConfig,
-    "turbine-node": TurbineNodeFieldConfig
+    "turbine-node": TurbineNodeFieldConfig,
+    "surface-condenser-node": SurfaceCondenserNodeFieldConfig,
+    "kod-node": KODNodeFieldConfig,
+    "centrifugal-pump-node": CentrifugalPumpNodeFieldConfig,
+    "esv-node": ESVNodeFieldConfig,
+    "ejector-node": EjectorNodeFieldConfig,
 }
 const switchStyles = {
     display: 'flex',

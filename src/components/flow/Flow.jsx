@@ -42,6 +42,11 @@ import CompressorNode from './nodes/Compressor';
 import BoxNode from './nodes/Box';
 import { HeatExchangerNode } from './nodes/HeatExchanger';
 import { TurbineNode } from './nodes/Turbine';
+import { SurfaceCondenserNode } from './nodes/SurfaceCondenser';
+import { KODNode } from './nodes/Kod';
+import { CentrifugalPumpNode } from './nodes/CentrifugalPump';
+import { ESVNode } from './nodes/Esv';
+import { EjectorNode } from './nodes/Ejector';
 
 function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
@@ -64,7 +69,14 @@ const nodeTypes = {
   compressorNode: CompressorNode,
   boxNode: BoxNode,
   heatExchangerNode: HeatExchangerNode,
-  turbineNode: TurbineNode
+  turbineNode: TurbineNode,
+  surfaceCondenserNode: SurfaceCondenserNode,
+  kodNode: KODNode,
+  centrifugalPumpNode: CentrifugalPumpNode,
+  esvNode: ESVNode,
+  ejectorNode: EjectorNode,
+  
+
 
 };
 
