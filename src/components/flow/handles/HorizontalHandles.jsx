@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react'
 
 const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200 }) => {
   const showHandles = useRecoilValue(showHandlesAtom)
-  const [handlePosition, setHandlePosition] = useState({ left: -10, right: -10 })
+  const [handlePosition, setHandlePosition] = useState({
+    left: -10,
+    right: -10,
+    top: -10,
+    bottom: -10
+  })
 
   useEffect(() => {
     if (!containerRef?.current) return;
@@ -37,10 +42,14 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
       // Calculate handle positions to be on the SVG stroke
       const leftPosition = svgRect.left - containerRect.left + dynamicOffset;
       const rightPosition = containerRect.right - svgRect.right + dynamicOffset;
+      const topPosition = svgRect.top - containerRect.top + dynamicOffset;
+      const bottomPosition = containerRect.bottom - svgRect.bottom + dynamicOffset;
 
       setHandlePosition({
         left: leftPosition,
-        right: rightPosition
+        right: rightPosition,
+        top: topPosition,
+        bottom: bottomPosition
       });
     };
 
@@ -91,6 +100,39 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
           ...handleStyle,
           // right: `${handlePosition.right}px`,
           right: -4,
+          height: '42px',
+          width: '42px'
+        }}
+      />
+
+        {/* Top handle */}
+      <Handle
+        key={`${id}-handle-top`}
+        type="target"
+        position={Position.Top}
+        id={`${id}-handle-top`}
+        style={{
+          ...handleStyle,
+          top: -4,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          height: '42px',
+          width: '42px'
+        }}
+      />
+
+      {/* Bottom handle */}
+      <Handle
+        key={`${id}-handle-bottom`}
+        type="source"
+        position={Position.Bottom}
+        id={`${id}-handle-bottom`}
+        style={{
+          ...handleStyle,
+          top: 'auto',
+          bottom: -4,
+          left: '50%',
+          transform: 'translateX(-50%)',
           height: '42px',
           width: '42px'
         }}
