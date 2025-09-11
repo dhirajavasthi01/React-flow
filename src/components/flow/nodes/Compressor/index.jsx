@@ -8,7 +8,7 @@ import CompressorNodeSvg from '../../../../assets/ADFP SVG/Compressor Config 1.s
 
 export const CompressorNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "color" },
+        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
     ],

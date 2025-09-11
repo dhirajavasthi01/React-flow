@@ -9,7 +9,7 @@ import SvgNode from "../../SvgNode";
 export const CouplingNodeFieldConfig = {
     fields: [
         { label: "Is Active", name: "isActive", type: "switch" },
-        { label: "Node Color", name: "nodeColor", type: "color" },
+        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Width", name: "width", type: "number", min: 100 },
         { label: "Height", name: "height", type: "number", min: 100 },

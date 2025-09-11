@@ -279,7 +279,7 @@ const NodeConfigurator = () => {
             )
         }
 
-        if (field.name === 'color') {
+        if (field.type === 'color') {
             return (
                 <div key={field.name}>
                     <label className="text-13-bold text-uppercase">
@@ -296,7 +296,7 @@ const NodeConfigurator = () => {
             )
         }
 
-        if (field.name === 'nodeColor') {
+        if (field.type === 'gradientColor') {
             const colors = [
                 {
                     name: 'gradientStart',
