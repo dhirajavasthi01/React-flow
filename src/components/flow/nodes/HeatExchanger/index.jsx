@@ -9,7 +9,7 @@ import HeatExchangerSvg from '../../../../assets/ADFP SVG/S&T Exchanger.svg';
 
 export const HeatExchangerNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "nodeColor" },
+        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
     ],
     showLinkModal: true,
