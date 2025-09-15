@@ -99,3 +99,8 @@ body {
   min-height: 500px;
   min-width: 700px;
 }
+
+.react-flow__handle{
+  min-width: 42px;
+  min-height: 42px;
+}

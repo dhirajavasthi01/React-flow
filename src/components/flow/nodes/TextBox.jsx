@@ -1,7 +1,7 @@
-import { memo, useState, useMemo } from 'react';
+import { memo, useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
-import { EXTRA_NODE_COLORS, text_box_resources } from "../utils";
+import { EXTRA_NODE_COLORS } from "../utils";
 import { allTagsDataAtom, selectedNodeIdAtom } from "../../../pages/network/store";
 import Handles from "../handles/Handles";
 
@@ -56,6 +56,7 @@ export const TextBoxNodeConfig = {
 export const TextboxNode = memo(({ data, id, selected }) => {
     const selectedId = useRecoilValue(selectedNodeIdAtom);
     const { setNodes } = useReactFlow();
+    const textRef = useRef(null);
 
     const {
         width: initialWidth = 200,
@@ -74,11 +75,18 @@ export const TextboxNode = memo(({ data, id, selected }) => {
         width: initialWidth,
         height: initialHeight
     });
+    const [fontSize, setFontSize] = useState(16);
 
-    const { bgColor, borderColor } = EXTRA_NODE_COLORS[template] || {};
+    useEffect(() => {
+        setCurrentDimensions({
+            width: initialWidth,
+            height: initialHeight
+        });
+    }, [initialWidth, initialHeight]);
+
+    const { bgColor } = EXTRA_NODE_COLORS[template] || {};
     const allTagsDataList = useRecoilValue(allTagsDataAtom);
     const tagData = allTagsDataList.find((x) => x.tagId && x.tagId == linkedTag);
-
 
     const onResizeEnd = (_, params) => {
         setCurrentDimensions({
@@ -86,22 +94,66 @@ export const TextboxNode = memo(({ data, id, selected }) => {
             height: params.height,
         });
 
-        // setNodes((nds) =>
-        //     nds.map((node) => {
-        //         if (node.id === id) {
-        //             return {
-        //                 ...node,
-        //                 // Update the style object with the new dimensions
-        //                 style: { ...node.style, width: params.width, height: params.height },
-        //             };
-        //         }
-        //         return node;
-        //     })
-        // );
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === id) {
+                    return {
+                        ...node,
+                        data: { ...node.data, width: params.width, height: params.height },
+                    };
+                }
+                return node;
+            })
+        );
     };
 
-    const dynamicFontSize = Math.max( 60, Math.min(currentDimensions.width / (label.length * 0.6), currentDimensions.height / 1.5));
+    useLayoutEffect(() => {
+        const calculateFontSize = () => {
+            if (!textRef.current) return;
+            const parentWidth = currentDimensions.width - 4;
+            const parentHeight = currentDimensions.height - 4;
+            if (parentWidth <= 0 || parentHeight <= 0) {
+                setFontSize(1);
+                return;
+            }
 
+            let low = 1;
+            let high = 500;
+            let bestFit = 1;
+
+            while (low <= high) {
+                const mid = Math.floor((low + high) / 2);
+                textRef.current.style.fontSize = `${mid}px`;
+                const textWidth = textRef.current.scrollWidth;
+                const textHeight = textRef.current.scrollHeight;
+
+                if (textWidth <= parentWidth && textHeight <= parentHeight) {
+                    bestFit = mid;
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+            low = 1;
+            high = bestFit;
+            let finalFit = 1;
+
+            while (low <= high) {
+                const mid = Math.floor((low + high) / 2);
+                textRef.current.style.fontSize = `${mid}px`;
+                const textHeight = textRef.current.scrollHeight;
+                if (textHeight <= parentHeight) {
+                    finalFit = mid;
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+            setFontSize(finalFit);
+        };
+        calculateFontSize();
+    }, [currentDimensions.width, currentDimensions.height, label, tagData]);
+    const textContent = tagData ? tagData?.actual ?? "-" : label;
 
     return (
         <>
@@ -118,36 +170,34 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                     alignItems: "center",
                     position: "relative",
                     backgroundColor: bgColor || "transparent",
-                    width: "fit-content",
-                    height: "fit-content",
+                    width: currentDimensions.width,
+                    height: currentDimensions.height,
                     padding: "4px",
                     boxSizing: "border-box",
                 }}
             >
                 <p
+                    ref={textRef}
                     dangerouslySetInnerHTML={{
-                        __html: tagData ? tagData?.actual ?? "-" : label,
+                        __html: textContent,
                     }}
                     style={{
-                        color: label.toLowerCase().includes("header")
-                            ? "red"
-                            : color,
+                        color: label.toLowerCase().includes("header") ? "red" : color,
                         textAlign: "center",
-                        fontSize: `${dynamicFontSize}px`,
+                        fontSize: `${fontSize}px`,
                         margin: 0,
                         padding: 0,
-                        transition: 'font-size 0.1s ease',
                         fontWeight: 'bold',
                         lineHeight: '1.2',
-                        whiteSpace: "nowrap",
-                        overflow: "hidden"
+                        overflow: "hidden",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
                     }}
                     className="text-uppercase"
                 />
 
                 <Handles
-                    width={currentDimensions.width}
-                    height={currentDimensions.height}
                     numSourceHandlesRight={numSourceHandlesRight}
                     numTargetHandlesTop={numTargetHandlesTop}
                     numSourceHandlesBottom={numSourceHandlesBottom}
@@ -155,19 +205,6 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                     key="textBoxNode"
                 />
             </div>
-            <style>
-                {`
-                .react-flow__node-textBoxNode {
-                    width: auto !important;
-                    height: auto !important;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: transparent;
-                }
-            `}
-
-            </style>
         </>
     );
 });
