@@ -27,7 +27,7 @@ export const V2NodeConfig = {
     },
 };
 
-export const V2Node = ({ data, id, selected }) => {
+export const V2Node = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem, svgPath } = data;
     
     // Use the useReactFlow hook
@@ -74,6 +74,7 @@ export const V2Node = ({ data, id, selected }) => {
                 id={id}
                 data={data}
                 svgPath={svgPath}
+                nodeType={type}
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
                 HandlesComponent={HorizontalHandles}

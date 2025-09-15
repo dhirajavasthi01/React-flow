@@ -10,7 +10,7 @@ export const BearingNodeFieldConfig = {
     fields: [
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
-        { label: "Sub System", name: "subSystem", type: "text" },  
+        { label: "Sub System", name: "subSystem", type: "text" },
     ],
 };
 
@@ -27,9 +27,9 @@ export const BearingNodeConfig = {
     },
 };
 
-export const BearingNode = ({ data, id, selected }) => {
+export const BearingNode = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem, svgPath } = data;
-    
+
     // Use the useReactFlow hook
     const { setNodes } = useReactFlow();
 
@@ -38,8 +38,8 @@ export const BearingNode = ({ data, id, selected }) => {
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
     const isHighlighted = subSystem !== null &&
-                         highlightedNodeType !== null &&
-                         highlightedNodeType === subSystem;
+        highlightedNodeType !== null &&
+        highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -49,7 +49,7 @@ export const BearingNode = ({ data, id, selected }) => {
 
     const onResizeEnd = (_, params) => {
         // Update the nodes in the React Flow state
-        setNodes((nds) => 
+        setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
                     return {
@@ -64,10 +64,10 @@ export const BearingNode = ({ data, id, selected }) => {
 
     return (
         <>
-            <NodeResizer 
-                isVisible={selected} 
-                minWidth={10} 
-                minHeight={20} 
+            <NodeResizer
+                isVisible={selected}
+                minWidth={10}
+                minHeight={20}
                 onResizeEnd={onResizeEnd}
             />
             <SvgNode
@@ -77,7 +77,7 @@ export const BearingNode = ({ data, id, selected }) => {
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
                 HandlesComponent={HorizontalHandles}
-   
+                nodeType={type}
                 isHighlighted={isHighlighted}
 
             />

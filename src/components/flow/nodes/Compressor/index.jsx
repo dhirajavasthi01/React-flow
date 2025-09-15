@@ -30,7 +30,7 @@ export const CompressorNodeConfig = {
     },
 };
 
-export const CompressorNode = ({ data, id, selected }) => {
+export const CompressorNode = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem ,svgPath } = data;
 
     // Use the useReactFlow hook to get access to the setNodes function
@@ -80,6 +80,7 @@ export const CompressorNode = ({ data, id, selected }) => {
                 id={id}
                 data={data}
                 svgPath={svgPath}
+                nodeType={type}
                 defaultWidth={data.width}
                 defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"

@@ -79,42 +79,49 @@ export const TextboxNode = memo(({ data, id, selected }) => {
     const allTagsDataList = useRecoilValue(allTagsDataAtom);
     const tagData = allTagsDataList.find((x) => x.tagId && x.tagId == linkedTag);
 
+
     const onResizeEnd = (_, params) => {
         setCurrentDimensions({
             width: params.width,
             height: params.height,
         });
 
-        setNodes((nds) =>
-            nds.map((node) => {
-                if (node.id === id) {
-                    return {
-                        ...node,
-                        style: { ...node.style, width: params.width, height: params.height },
-                    };
-                }
-                return node;
-            })
-        );
+        // setNodes((nds) =>
+        //     nds.map((node) => {
+        //         if (node.id === id) {
+        //             return {
+        //                 ...node,
+        //                 // Update the style object with the new dimensions
+        //                 style: { ...node.style, width: params.width, height: params.height },
+        //             };
+        //         }
+        //         return node;
+        //     })
+        // );
     };
 
-    const dynamicFontSize = Math.max(10, Math.min(currentDimensions.height / 4, 40));
+    const dynamicFontSize = Math.max( 60, Math.min(currentDimensions.width / (label.length * 0.6), currentDimensions.height / 1.5));
 
 
     return (
         <>
             <NodeResizer
                 isVisible={selected}
+                minWidth={80}
+                minHeight={40}
                 onResizeEnd={onResizeEnd}
             />
             <div
                 style={{
-                    display: "inline-block",
-                    backgroundColor: bgColor || "transparent",
+                    display: "inline-flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     position: "relative",
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
+                    backgroundColor: bgColor || "transparent",
+                    width: "fit-content",
+                    height: "fit-content",
+                    padding: "4px",
+                    boxSizing: "border-box",
                 }}
             >
                 <p
@@ -132,6 +139,8 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                         transition: 'font-size 0.1s ease',
                         fontWeight: 'bold',
                         lineHeight: '1.2',
+                        whiteSpace: "nowrap",
+                        overflow: "hidden"
                     }}
                     className="text-uppercase"
                 />
@@ -151,8 +160,13 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                 .react-flow__node-textBoxNode {
                     width: auto !important;
                     height: auto !important;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: transparent;
                 }
             `}
+
             </style>
         </>
     );

@@ -5,6 +5,7 @@ const SvgNode = ({
   id,
   data,
   svgPath,
+  nodeType,
   defaultNodeColor = "#d3d3d3",
   defaultStrokeColor = "#000000",
   HandlesComponent,
@@ -51,6 +52,7 @@ const SvgNode = ({
         svgElement.setAttribute('class', `${existingClass} ${styles.highlighted}`.trim());
       }
         const gradientId = `customGradient-${nodeId}`;
+        svgElement.setAttribute("id", `svg-node-${nodeType}`);
       // --- Gradient ---
     if (gradientStart && gradientEnd) {
         const defs = doc.createElementNS("http://www.w3.org/2000/svg", "defs");

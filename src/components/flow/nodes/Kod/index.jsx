@@ -30,7 +30,7 @@ export const KODNodeConfig = {
     },
 };
 
-export const KODNode = ({ data, id, selected }) => {
+export const KODNode = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem, svgPath } = data;
 
     // Use the useReactFlow hook to get access to the setNodes function
@@ -80,6 +80,7 @@ export const KODNode = ({ data, id, selected }) => {
                 id={id}
                 data={data}
                 svgPath={svgPath}
+                nodeType={type}
                 defaultWidth={data.width}
                 defaultHeight={data.height}
                 defaultNodeColor="#d3d3d3"

@@ -88,3 +88,14 @@ body {
   stroke-dasharray: 10 !important;
   animation: flow 2s linear infinite !important;
 }
+
+
+#svg-node-couplingNode, #svg-node-turbineNode{
+  min-height: 300px;
+  min-width: 500px;
+}
+
+#svg-node-compressorConfigNode, #svg-node-surfaceCondenserNode, #svg-node-esvNode{
+  min-height: 500px;
+  min-width: 700px;
+}
