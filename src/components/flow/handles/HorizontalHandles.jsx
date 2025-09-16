@@ -3,7 +3,7 @@ import { showHandlesAtom } from '../../../pages/network/store'
 import { useRecoilValue } from 'recoil'
 import { useEffect, useState } from 'react'
 
-const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200 }) => {
+const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200 ,targetHandles = []}) => {
   const showHandles = useRecoilValue(showHandlesAtom)
   const [handlePosition, setHandlePosition] = useState({
     left: -10,
@@ -72,43 +72,46 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
     transition: 'opacity 0.3s ease',
   }
 
+   const getHandleType = (position) => {
+        return targetHandles.includes(position) ? "target" : "source";
+    };
 
   return (
     <>
       {/* Target handle on the left side */}
       <Handle
         key={`${id}-target-handle-left`}
-        type="target"
+        type={getHandleType('left')}
         position={Position.Left}
         id={`${id}-target-handle-left`}
         style={{
           ...handleStyle,
           // left: `${handlePosition.left}px`,
           left: -4,
-          height: '42px',
-          width: '42px'
+          height: '7px',
+          width: '7px'
         }}
       />
 
       {/* Source handle on the right side */}
       <Handle
         key={`${id}-target-handle-right`}
-        type="source"
+        type={getHandleType('right')}
         position={Position.Right}
         id={`${id}-target-handle-right`}
         style={{
           ...handleStyle,
           // right: `${handlePosition.right}px`,
           right: -4,
-          height: '42px',
-          width: '42px'
+          height: '7px',
+          width: '7px'
         }}
       />
 
         {/* Top handle */}
       <Handle
         key={`${id}-handle-top`}
-        type="target"
+        type={getHandleType('top')}
         position={Position.Top}
         id={`${id}-handle-top`}
         style={{
@@ -116,15 +119,15 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
           top: -4,
           left: '50%',
           transform: 'translateX(-50%)',
-          height: '42px',
-          width: '42px'
+          height: '7px',
+          width: '7px'
         }}
       />
 
       {/* Bottom handle */}
       <Handle
         key={`${id}-handle-bottom`}
-        type="source"
+        type={getHandleType('bottom')}
         position={Position.Bottom}
         id={`${id}-handle-bottom`}
         style={{
@@ -133,8 +136,8 @@ const HorizontalHandles = ({ id, containerRef, nodeWidth = 100, nodeHeight = 200
           bottom: -4,
           left: '50%',
           transform: 'translateX(-50%)',
-          height: '42px',
-          width: '42px'
+          height: '7px',
+          width: '7px'
         }}
       />
     </>

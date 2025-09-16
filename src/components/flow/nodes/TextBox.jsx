@@ -10,6 +10,11 @@ export const TextBoxNodeFieldConfig = {
         { label: "Label", name: "label", type: "text" },
         { label: "Text Color", name: "color", type: "color" },
         {
+            label: "Target Handles", 
+            name: "targetHandles", 
+            type: "multi-select",
+        },
+        {
             label: "Outlet (Right)",
             name: "numSourceHandlesRight",
             type: "number",
@@ -49,6 +54,7 @@ export const TextBoxNodeConfig = {
         label: "Text Box Node",
         color: "#000000",
         linkedTag: null,
+        targetHandles: [],
     },
     template: null,
 };
@@ -69,6 +75,7 @@ export const TextboxNode = memo(({ data, id, selected }) => {
         numTargetHandlesLeft,
         linkedTag,
         template,
+        targetHandles = [],
     } = data;
 
     const [currentDimensions, setCurrentDimensions] = useState({
@@ -202,6 +209,7 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                     numTargetHandlesTop={numTargetHandlesTop}
                     numSourceHandlesBottom={numSourceHandlesBottom}
                     numTargetHandlesLeft={numTargetHandlesLeft}
+                    targetHandles={targetHandles}
                     key="textBoxNode"
                 />
             </div>

@@ -10,8 +10,8 @@ const Marker = ({ type }) => {
             <defs>
                 <marker
                     id={type}
-                    markerWidth="15"
-                    markerHeight="15"
+                    markerWidth="7"
+                    markerHeight="7"
                     viewBox="-10 -10 20 20"
                     markerUnits="strokeWidth"
                     orient="auto-start-reverse"

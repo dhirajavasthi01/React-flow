@@ -3,14 +3,19 @@ import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
-import SvgNode from '../../SvgNode'; 
+import SvgNode from '../../SvgNode';
 import TurbineSvg from '../../../../assets/ADFP SVG/Turbine.svg';
 
 export const TurbineNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "nodeColor" },
+        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
+        {
+            label: "Target Handles",
+            name: "targetHandles",
+            type: "multi-select",
+        },
     ],
     showLinkModal: true,
 };
@@ -25,6 +30,7 @@ export const TurbineNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: TurbineSvg,
+        targetHandles: [],
         // width: 20,
         // height: 20,
     },
@@ -41,9 +47,9 @@ export const TurbineNode = ({ data, id, selected, type }) => {
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
     // Handle highlighting internally in the node component
-    const isHighlighted = subSystem !== null && 
-                          highlightedNodeType !== null && 
-                          highlightedNodeType === subSystem;
+    const isHighlighted = subSystem !== null &&
+        highlightedNodeType !== null &&
+        highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -53,7 +59,7 @@ export const TurbineNode = ({ data, id, selected, type }) => {
 
     // Callback to update the node's style after resizing
     const onResizeEnd = (_, params) => {
-        setNodes((nds) => 
+        setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
                     return {
@@ -70,9 +76,9 @@ export const TurbineNode = ({ data, id, selected, type }) => {
     return (
         <>
             {/* The NodeResizer component should wrap the node content */}
-            <NodeResizer 
-                isVisible={selected} 
-                minWidth={10} 
+            <NodeResizer
+                isVisible={selected}
+                minWidth={10}
                 minHeight={20}
                 onResizeEnd={onResizeEnd}
             />

@@ -11,6 +11,11 @@ export const CentrifugalPumpNodeFieldConfig = {
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
+        {
+            label: "Target Handles", 
+            name: "targetHandles", 
+            type: "multi-select",
+        },
     ],
     showLinkModal: true,
 };
@@ -25,6 +30,7 @@ export const CentrifugalPumpNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: CentrifugalPumpSvg,
+        targetHandles: [],
     },
 };
 

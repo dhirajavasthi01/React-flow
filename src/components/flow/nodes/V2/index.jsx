@@ -11,6 +11,11 @@ export const V2NodeFieldConfig = {
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },  
+     {
+            label: "Target Handles",
+            name: "targetHandles",
+            type: "multi-select",
+        },
     ],
 };
 
@@ -24,6 +29,7 @@ export const V2NodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: V2NodeSvg,
+        targetHandles: [],
     },
 };
 

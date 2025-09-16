@@ -166,3 +166,24 @@
   height: 70px;
   width: 70px;
 }
+
+/* Add to your styles.css or flow.module.scss */
+.react-select__control {
+    border: none !important;
+    border-radius: 0.3vmin !important;
+    min-height: 30px !important;
+}
+
+.react-select__value-container {
+    padding: 0 8px !important;
+}
+
+.react-select__multi-value {
+    background-color: #009fdf !important;
+    color: white !important;
+    border-radius: 2px !important;
+}
+
+.react-select__multi-value__label {
+    color: white !important;
+}

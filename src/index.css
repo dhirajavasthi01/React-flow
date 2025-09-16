@@ -90,7 +90,7 @@ body {
 }
 
 
-#svg-node-couplingNode, #svg-node-turbineNode{
+/* #svg-node-couplingNode, #svg-node-turbineNode{
   min-height: 300px;
   min-width: 500px;
 }
@@ -103,4 +103,4 @@ body {
 .react-flow__handle{
   min-width: 42px;
   min-height: 42px;
-}
+} */

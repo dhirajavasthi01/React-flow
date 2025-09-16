@@ -16,7 +16,8 @@ const SvgNode = ({
     color = defaultNodeColor,
     strokeColor = defaultStrokeColor,
     tag,
-    subTag
+    subTag,
+    targetHandles = [],
   } = data;
 
   const [svgContent, setSvgContent] = useState(null);
@@ -216,6 +217,7 @@ const SvgNode = ({
           <HandlesComponent
             id={id}
             containerRef={svgContainerRef}
+            targetHandles={targetHandles}
           />
         )}
       </div>

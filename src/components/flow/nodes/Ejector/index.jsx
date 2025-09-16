@@ -10,7 +10,12 @@ export const EjectorNodeFieldConfig = {
     fields: [
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
-        { label: "Sub System", name: "subSystem", type: "text" },
+        { label: "Sub System", name: "subSystem", type: "text" }, 
+        {
+            label: "Target Handles", 
+            name: "targetHandles", 
+            type: "multi-select", 
+        },
     ],
     showLinkModal: true,
 };
@@ -25,6 +30,7 @@ export const EjectorNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: EjectorSvg,
+        targetHandles: [], // Empty array means all handles will be source by default
     },
 };
 

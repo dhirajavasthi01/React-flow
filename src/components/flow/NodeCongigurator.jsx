@@ -49,8 +49,8 @@ const nodeTypesConfig = {
     "centrifugal-pump-node": CentrifugalPumpNodeFieldConfig,
     "esv-node": ESVNodeFieldConfig,
     "ejector-node": EjectorNodeFieldConfig,
-    "text-box-node" : TextBoxNodeFieldConfig,
-    "nde-journal-bearing-node":NDEJournalBearingNodeFieldConfig,
+    "text-box-node": TextBoxNodeFieldConfig,
+    "nde-journal-bearing-node": NDEJournalBearingNodeFieldConfig,
     "v2-node": V2NodeFieldConfig,
 }
 const switchStyles = {
@@ -183,10 +183,18 @@ const NodeConfigurator = () => {
         };
         onConfigChange(syntheticEvent);
     };
-    
+
     const onConfigChange = (event) => {
         const { name, value, type, checked } = event.target
-        if (name === 'template') {
+        if (type === 'multi-select') {
+            setConfig((prev) => ({
+                ...prev,
+                data: {
+                    ...prev.data,
+                    [name]: value, // This will be an array of selected values
+                },
+            }))
+        } else if (name === 'template') {
             const selectedData = text_box_resources.find((x) => x.id === value)
             setConfig((prev) => ({
                 ...prev,
@@ -411,6 +419,57 @@ const NodeConfigurator = () => {
                             ></div>
                         </label>
                     </div>
+                </div>
+            )
+        }
+        if (field.type === 'multi-select') {
+            const options = field.options ||  [
+                { value: 'left', label: 'Left' },
+                { value: 'right', label: 'Right' },
+                { value: 'top', label: 'Top' },
+                { value: 'bottom', label: 'Bottom' }
+            ]
+            const selectedValues = data?.[field.name] || []
+
+            // Convert selected values to react-select format
+            const selectedOptions = options.filter(option =>
+                selectedValues.includes(option.value)
+            )
+
+            return (
+                <div key={field.name}>
+                    <label className="text-13-bold text-uppercase">
+                        {field.label} :
+                    </label>
+                    <Select
+                        isMulti
+                        options={options}
+                        value={selectedOptions}
+                        onChange={(selected) => {
+                            const selectedValues = selected ? selected.map(option => option.value) : []
+                            // Create a synthetic event to maintain consistency
+                            const syntheticEvent = {
+                                target: {
+                                    name: field.name,
+                                    value: selectedValues,
+                                    type: 'multi-select'
+                                }
+                            }
+                            onConfigChange(syntheticEvent)
+                        }}
+                        className="text-14-regular"
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                fontSize: '1.4vmin',
+                                minHeight: '30px'
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                fontSize: '1.4vmin'
+                            })
+                        }}
+                    />
                 </div>
             )
         }
