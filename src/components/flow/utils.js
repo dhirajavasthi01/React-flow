@@ -51,7 +51,7 @@ export const extractColorsFromSvg = async (svgPath) => {
   }
 };
 export const EXTRA_NODE_COLORS = {
-
+  gradient: ["#ffffff", "#d3d3d3"],
   "Green": {
     bgColor: "rgba(181, 213, 167, 0.8)",
     borderColor: "rgb(181, 213, 167)",
@@ -61,8 +61,16 @@ export const EXTRA_NODE_COLORS = {
     borderColor: "rgb(91, 155, 213)",
   },
 };
+export const getNodeGradient = () => EXTRA_NODE_COLORS.gradient;
 
+// export const getNodeGradient = () => {
+//   return EXTRA_NODE_COLORS.gradient;
+// };
 
+export const getGradientCSS = (colors) => {
+  if (!colors || colors.length < 2) return colors[0] || "#ffffff";
+  return `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`;
+};
 
 export const text_box_resources = [
   {

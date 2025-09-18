@@ -5,12 +5,13 @@ import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "..
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
 import CompressorConfigSvg from '../../../../assets/ADFP SVG/Compressor Config 1.svg';
+import { getNodeGradient } from "../../utils";
 
 export const CompressorConfigNodeFieldConfig = {
     fields: [
         { label: "Node Color", name: "nodeColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
-        { label: "Sub System", name: "subSystem", type: "text" },  
+        { label: "Sub System", name: "subSystem", type: "text" },
     ],
 };
 
@@ -20,7 +21,10 @@ export const CompressorConfigNodeConfig = {
     type: "compressorConfigNode",
     position: { x: 0, y: 0 },
     data: {
-        nodeColor: "#d3d3d3",
+        // nodeColor: "#d3d3d3",
+        // nodeColor: ["#ffffff", "#d3d3d3"],
+        nodeColor: getNodeGradient(),
+        // strokeColor: getNodeStroke(),
         strokeColor: "#000000",
         subSystem: null,
         svgPath: CompressorConfigSvg,
@@ -29,7 +33,7 @@ export const CompressorConfigNodeConfig = {
 
 export const CompressorConfigNode = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem, svgPath } = data;
-    
+
     // Use the useReactFlow hook
     const { setNodes } = useReactFlow();
 
@@ -38,8 +42,8 @@ export const CompressorConfigNode = ({ data, id, selected, type }) => {
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
     const isHighlighted = subSystem !== null &&
-                         highlightedNodeType !== null &&
-                         highlightedNodeType === subSystem;
+        highlightedNodeType !== null &&
+        highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -49,7 +53,7 @@ export const CompressorConfigNode = ({ data, id, selected, type }) => {
 
     const onResizeEnd = (_, params) => {
         // Update the nodes in the React Flow state
-        setNodes((nds) => 
+        setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
                     return {
@@ -64,10 +68,10 @@ export const CompressorConfigNode = ({ data, id, selected, type }) => {
 
     return (
         <>
-            <NodeResizer 
-                isVisible={selected} 
-                minWidth={10} 
-                minHeight={20} 
+            <NodeResizer
+                isVisible={selected}
+                minWidth={10}
+                minHeight={20}
                 onResizeEnd={onResizeEnd}
             />
             <SvgNode
