@@ -9,7 +9,7 @@ import { getNodeGradient } from "../../utils";
 
 export const CompressorConfigNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
+        { label: "Node Color", name: "gradientColor", type: "gradientColor" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
     ],
@@ -21,10 +21,8 @@ export const CompressorConfigNodeConfig = {
     type: "compressorConfigNode",
     position: { x: 0, y: 0 },
     data: {
-        // nodeColor: "#d3d3d3",
-        // nodeColor: ["#ffffff", "#d3d3d3"],
-        nodeColor: getNodeGradient(),
-        // strokeColor: getNodeStroke(),
+        gradientStart: getNodeGradient()[0],
+        gradientEnd: getNodeGradient()[1],
         strokeColor: "#000000",
         subSystem: null,
         svgPath: CompressorConfigSvg,
@@ -34,9 +32,7 @@ export const CompressorConfigNodeConfig = {
 export const CompressorConfigNode = ({ data, id, selected, type }) => {
     const { isActive, linkedTag, subSystem, svgPath } = data;
 
-    // Use the useReactFlow hook
     const { setNodes } = useReactFlow();
-
     const selectedId = useRecoilValue(selectedNodeIdAtom);
     const allTagsDataList = useRecoilValue(allTagsDataAtom);
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
@@ -52,7 +48,6 @@ export const CompressorConfigNode = ({ data, id, selected, type }) => {
     const isNodeActive = tagData ? tagData?.actual == 1 : isActive;
 
     const onResizeEnd = (_, params) => {
-        // Update the nodes in the React Flow state
         setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
