@@ -344,22 +344,27 @@ const NodeConfigurator = () => {
                     <label className="text-13-bold text-uppercase">
                         {field.label} :
                     </label>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {colors.map(({ name, value, counterpart }) => (
-                            <input
-                                key={name}
-                                type="color"
-                                name={name}
-                                value={value}
-                                onChange={(e) =>
-                                    handleColorChange(
-                                        e,
-                                        counterpart,
-                                        data[counterpart] ?? extractedColors?.[counterpart]
-                                    )
-                                }
-                                className="form-control text-14-regular"
-                            />
+                            <>
+                                <label className="text-13-bold" style={{ textTransform: 'capitalize' }} htmlFor={name}>
+                                    {name} :
+                                </label>
+                                <input
+                                    key={name}
+                                    type="color"
+                                    name={name}
+                                    value={value}
+                                    onChange={(e) =>
+                                        handleColorChange(
+                                            e,
+                                            counterpart,
+                                            data[counterpart] ?? extractedColors?.[counterpart]
+                                        )
+                                    }
+                                    className="form-control text-14-regular"
+                                />
+                            </>
                         ))}
                     </div>
                 </div>
@@ -423,7 +428,7 @@ const NodeConfigurator = () => {
             )
         }
         if (field.type === 'multi-select') {
-            const options = field.options ||  [
+            const options = field.options || [
                 { value: 'left', label: 'Left' },
                 { value: 'right', label: 'Right' },
                 { value: 'top', label: 'Top' },

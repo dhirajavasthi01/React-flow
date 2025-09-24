@@ -3,7 +3,7 @@ import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
-import SvgNode from '../../SvgNode'; 
+import SvgNode from '../../SvgNode';
 import CentrifugalPumpSvg from '../../../../assets/ADFP SVG/Centrifugal Pump.svg';
 
 export const CentrifugalPumpNodeFieldConfig = {
@@ -12,8 +12,8 @@ export const CentrifugalPumpNodeFieldConfig = {
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
         {
-            label: "Target Handles", 
-            name: "targetHandles", 
+            label: "Target Handles",
+            name: "targetHandles",
             type: "multi-select",
         },
     ],
@@ -32,6 +32,10 @@ export const CentrifugalPumpNodeConfig = {
         svgPath: CentrifugalPumpSvg,
         targetHandles: [],
     },
+    style: {
+        width: 200,
+        height: 200,
+    },
 };
 
 export const CentrifugalPumpNode = ({ data, id, selected, type }) => {
@@ -45,9 +49,9 @@ export const CentrifugalPumpNode = ({ data, id, selected, type }) => {
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
     // Handle highlighting internally in the node component
-    const isHighlighted = subSystem !== null && 
-                          highlightedNodeType !== null && 
-                          highlightedNodeType === subSystem;
+    const isHighlighted = subSystem !== null &&
+        highlightedNodeType !== null &&
+        highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -57,7 +61,7 @@ export const CentrifugalPumpNode = ({ data, id, selected, type }) => {
 
     // Callback to update the node's style after resizing
     const onResizeEnd = (_, params) => {
-        setNodes((nds) => 
+        setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
                     return {
@@ -74,9 +78,9 @@ export const CentrifugalPumpNode = ({ data, id, selected, type }) => {
     return (
         <>
             {/* The NodeResizer component should wrap the node content */}
-            <NodeResizer 
-                isVisible={selected} 
-                minWidth={10} 
+            <NodeResizer
+                isVisible={selected}
+                minWidth={10}
                 minHeight={20}
                 onResizeEnd={onResizeEnd}
             />

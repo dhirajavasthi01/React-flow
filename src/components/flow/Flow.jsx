@@ -243,6 +243,7 @@ function Flow() {
 
   const onConnect = useCallback(
     (params) => {
+      console.log(params, "params")
       if (!isDeveloperMode) return;
       setEdges((eds) =>
         addEdge(

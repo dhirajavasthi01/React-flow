@@ -30,9 +30,11 @@ export const KODNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: KODSvg,
-        targetHandles: [],
-        // width: 20,
-        // height: 20,
+        targetHandles: []
+    },
+    style: {
+        width: 100,
+        height: 200,
     },
 };
 

@@ -25,7 +25,7 @@ const SvgNode = ({
   const [useDefaultSvgColors, setUseDefaultSvgColors] = useState(true);
   const svgContainerRef = useRef(null);
 
- const processSvg = (
+  const processSvg = (
     svgText,
     fillColor,
     strokeColor,
@@ -73,7 +73,13 @@ const SvgNode = ({
       const gStart = gradientStart || "#ffffff";
       const gEnd = gradientEnd || "#d3d3d3";
 
-      if (gStart && gEnd && gStart !== gEnd) {
+      if (gradientStart && gradientEnd) {
+        const gradientId = `customGradient-${nodeId}`;
+        svgElement.setAttribute("id", `svg-node-${nodeType}`);
+
+        const gStart = gradientStart || "#ffffff";
+        const gEnd = gradientEnd || "#d3d3d3";
+
         const defs = doc.createElementNS("http://www.w3.org/2000/svg", "defs");
         const linearGrad = doc.createElementNS(
           "http://www.w3.org/2000/svg",
@@ -113,14 +119,16 @@ const SvgNode = ({
             el.setAttribute("stroke", strokeColor);
           }
         });
-      } else if (fillColor) {
-        svgElement.querySelectorAll("[fill]").forEach((el) => {
-          if (el.getAttribute("fill") !== "none") el.setAttribute("fill", fillColor);
-        });
-        svgElement.querySelectorAll("[stroke]").forEach((el) => {
-          if (el.getAttribute("stroke") !== "none")
-            el.setAttribute("stroke", strokeColor);
-        });
+      } else {
+        if (fillColor) {
+          svgElement.querySelectorAll("[fill]").forEach((el) => {
+            if (el.getAttribute("fill") !== "none") el.setAttribute("fill", fillColor);
+          });
+          svgElement.querySelectorAll("[stroke]").forEach((el) => {
+            if (el.getAttribute("stroke") !== "none")
+              el.setAttribute("stroke", strokeColor);
+          });
+        }
       }
 
       return svgElement.outerHTML;

@@ -25,8 +25,10 @@ export const BoxNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: BoxNodeSvg,
-        // width: 100,
-        // height: 200,
+    },
+    style: {
+        width: 100,
+        height: 150,
     },
 };
 
@@ -41,9 +43,9 @@ const BoxNode = ({ data, id, selected, type }) => {
     const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
 
     // Handle highlighting internally in the node component
-    const isHighlighted = subSystem !== null && 
-                          highlightedNodeType !== null && 
-                          highlightedNodeType === subSystem;
+    const isHighlighted = subSystem !== null &&
+        highlightedNodeType !== null &&
+        highlightedNodeType === subSystem;
 
     const tagData = allTagsDataList.find(
         (x) => x.tagId && x.tagId === linkedTag
@@ -53,7 +55,7 @@ const BoxNode = ({ data, id, selected, type }) => {
 
     // Callback to update the node's style after resizing
     const onResizeEnd = (_, params) => {
-        setNodes((nds) => 
+        setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
                     return {
@@ -70,9 +72,9 @@ const BoxNode = ({ data, id, selected, type }) => {
     return (
         <>
             {/* The NodeResizer component should wrap the node content */}
-            <NodeResizer 
-                isVisible={selected} 
-                minWidth={20} 
+            <NodeResizer
+                isVisible={selected}
+                minWidth={20}
                 minHeight={20}
                 onResizeEnd={onResizeEnd}
             />

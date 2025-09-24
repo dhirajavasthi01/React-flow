@@ -8,9 +8,14 @@ import BearingNodeSvg from '../../../../assets/ADFP SVG/Compressor Bearing.svg';
 
 export const BearingNodeFieldConfig = {
     fields: [
-        { label: "Node Color", name: "nodeColor", type: "gradientColor" },
+        { label: "Node Color", name: "nodeColor", type: "color" },
         { label: "Stroke Color", name: "strokeColor", type: "color" },
         { label: "Sub System", name: "subSystem", type: "text" },
+        //  {
+        //     label: "Target Handles", 
+        //     name: "targetHandles", 
+        //     type: "multi-select",
+        // },
     ],
 };
 
@@ -24,6 +29,11 @@ export const BearingNodeConfig = {
         strokeColor: "#000000",
         subSystem: null,
         svgPath: BearingNodeSvg,
+        //  targetHandles: [],
+    },
+    style: {
+        width: 100,
+        height: 200,
     },
 };
 
