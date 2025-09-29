@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import V2NodeSvg from '../../../../assets/ADFP SVG/V2.svg';
+import { svgMap } from '../../svgMap';
 
 export const V2NodeFieldConfig = {
     fields: [
@@ -28,7 +28,7 @@ export const V2NodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: V2NodeSvg,
+        svgPath: svgMap["v2-node"] || null,
         targetHandles: [],
     },
 };

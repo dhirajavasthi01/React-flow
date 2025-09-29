@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import BoxNodeSvg from '../../../../assets/ADFP SVG/Box.svg';
+import { svgMap } from '../../svgMap';
 
 export const BoxNodeFieldConfig = {
     fields: [
@@ -24,7 +24,7 @@ export const BoxNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: BoxNodeSvg,
+        svgPath: svgMap["box-node"] || null,
     },
     style: {
         width: 100,

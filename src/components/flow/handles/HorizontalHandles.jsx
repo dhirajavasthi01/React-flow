@@ -19,12 +19,18 @@ const HorizontalHandles = ({ id }) => {
       top: 'auto', 
       left: '50%',
       transform: 'translateX(-50%)',
-      top: -4,
     }
 
     return (
         <>
             {/* Left Handles */}
+             <Handle
+                key={`${id}-target-left`}
+                type="target"
+                position={Position.Left}
+                id={`${id}-target-left`}
+                style={{ ...handleStyle, left: -4 }}
+            />
             <Handle
                 key={`${id}-source-left`}
                 type="source"
@@ -32,15 +38,16 @@ const HorizontalHandles = ({ id }) => {
                 id={`${id}-source-left`}
                 style={{ ...handleStyle, left: -4 }}
             />
-            <Handle
-                key={`${id}-target-left`}
-                type="target"
-                position={Position.Left}
-                id={`${id}-target-left`}
-                style={{ ...handleStyle, left: -4 }}
-            />
+           
 
             {/* Right Handles */}
+              <Handle
+                key={`${id}-target-right`}
+                type="target"
+                position={Position.Right}
+                id={`${id}-target-right`}
+                style={{ ...handleStyle, right: -4 }}
+            />
             <Handle
                 key={`${id}-source-right`}
                 type="source"
@@ -48,15 +55,15 @@ const HorizontalHandles = ({ id }) => {
                 id={`${id}-source-right`}
                 style={{ ...handleStyle, right: -4 }}
             />
-            <Handle
-                key={`${id}-target-right`}
-                type="target"
-                position={Position.Right}
-                id={`${id}-target-right`}
-                style={{ ...handleStyle, right: -4 }}
-            />
 
             {/* Top Handles */}
+                        <Handle
+                key={`${id}-target-top`}
+                type="target"
+                position={Position.Top}
+                id={`${id}-target-top`}
+                style={{ ...verticalHandleStyle, top: -4 }}
+            />
             <Handle
                 key={`${id}-source-top`}
                 type="source"
@@ -64,15 +71,15 @@ const HorizontalHandles = ({ id }) => {
                 id={`${id}-source-top`}
                 style={{ ...verticalHandleStyle, top: -4 }}
             />
-            <Handle
-                key={`${id}-target-top`}
-                type="target"
-                position={Position.Top}
-                id={`${id}-target-top`}
-                style={{ ...verticalHandleStyle, top: -4 }}
-            />
 
             {/* Bottom Handles */}
+             <Handle
+                key={`${id}-target-bottom`}
+                type="target"
+                position={Position.Bottom}
+                id={`${id}-target-bottom`}
+                style={{ ...verticalHandleStyle, top: 'auto', bottom: -4 }}
+            />
             <Handle
                 key={`${id}-source-bottom`}
                 type="source"
@@ -80,13 +87,7 @@ const HorizontalHandles = ({ id }) => {
                 id={`${id}-source-bottom`}
                 style={{ ...verticalHandleStyle, top: 'auto', bottom: -4 }}
             />
-            <Handle
-                key={`${id}-target-bottom`}
-                type="target"
-                position={Position.Bottom}
-                id={`${id}-target-bottom`}
-                style={{ ...verticalHandleStyle, top: 'auto', bottom: -4 }}
-            />
+           
         </>
     );
 };

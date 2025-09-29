@@ -3,8 +3,8 @@ import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
-import CouplingNodeSvg from '../../../../assets/ADFP SVG/Coupling.svg'
 import SvgNode from "../../SvgNode";
+import { svgMap } from '../../svgMap';
 
 export const CouplingNodeFieldConfig = {
     fields: [
@@ -27,7 +27,7 @@ export const CouplingNodeConfig = {
         subSystem: null,
         nodeColor: "#a9a6a6",
         strokeColor: "#000000",
-        svgPath: CouplingNodeSvg,
+        svgPath: svgMap["coupling-node"] || null,
         // width: 230,
         // height: 260,
     },

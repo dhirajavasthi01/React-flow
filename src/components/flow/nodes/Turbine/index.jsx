@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import TurbineSvg from '../../../../assets/ADFP SVG/Turbine.svg';
+import { svgMap } from '../../svgMap';
 
 export const TurbineNodeFieldConfig = {
     fields: [
@@ -29,7 +29,7 @@ export const TurbineNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: TurbineSvg,
+        svgPath: svgMap["turbine-node"] || null,
         targetHandles: [],
         // width: 20,
         // height: 20,

@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import CentrifugalPumpSvg from '../../../../assets/ADFP SVG/Centrifugal Pump.svg';
+import { svgMap } from '../../svgMap';
 
 export const CentrifugalPumpNodeFieldConfig = {
     fields: [
@@ -29,7 +29,7 @@ export const CentrifugalPumpNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: CentrifugalPumpSvg,
+        svgPath: svgMap["centrifugal-pump-node"] || null,
         targetHandles: [],
     },
     style: {

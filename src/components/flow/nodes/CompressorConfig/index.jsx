@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import CompressorConfigSvg from '../../../../assets/ADFP SVG/Compressor Config 1.svg';
 import { getNodeGradient } from "../../utils";
+import { svgMap } from '../../svgMap';
 
 export const CompressorConfigNodeFieldConfig = {
     fields: [
@@ -25,7 +25,7 @@ export const CompressorConfigNodeConfig = {
         gradientEnd: getNodeGradient()[1],
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: CompressorConfigSvg,
+        svgPath: svgMap["compressor-config-node"] || null,
     },
 };
 

@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import BearingNodeSvg from '../../../../assets/ADFP SVG/Compressor Bearing.svg';
+import { svgMap } from '../../svgMap';
 
 export const BearingNodeFieldConfig = {
     fields: [
@@ -28,7 +28,7 @@ export const BearingNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: BearingNodeSvg,
+        svgPath: svgMap["bearing-node"] || null,
         //  targetHandles: [],
     },
     style: {

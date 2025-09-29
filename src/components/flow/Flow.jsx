@@ -53,6 +53,7 @@ import Marker from './marker';
 import { NDEJournalBearingNode } from './nodes/NDEJournalBearing';
 import { CompressorConfigNode } from './nodes/CompressorConfig';
 import { V2Node } from './nodes/V2';
+import { svgMap } from './svgMap';
 
 function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
@@ -134,8 +135,17 @@ function Flow() {
 
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        const parsedNodes = JSON.parse(initialFlowData.nodes);
         const parsedEdges = JSON.parse(initialFlowData.edges);
+        const parsedNodes = JSON.parse(initialFlowData.nodes).map((node) => {
+          const matchedSvg = svgMap[node.nodeType] || null;
+          return {
+            ...node,
+            data: {
+              ...node?.data,
+              svgPath: matchedSvg
+            }, 
+          }
+        });
         setNodes(parsedNodes);
         setEdges(parsedEdges);
         setNetworkFlowData({

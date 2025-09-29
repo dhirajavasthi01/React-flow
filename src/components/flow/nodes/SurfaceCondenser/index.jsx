@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode'; 
-import SurfaceCondenserSvg from '../../../../assets/ADFP SVG/Surface Condensor.svg';
+import { svgMap } from '../../svgMap';
 
 export const SurfaceCondenserNodeFieldConfig = {
     fields: [
@@ -24,7 +24,7 @@ export const SurfaceCondenserNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: SurfaceCondenserSvg,
+        svgPath: svgMap["surface-condenser-node"] || null,
     },
 };
 

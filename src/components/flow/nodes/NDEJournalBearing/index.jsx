@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import NDEJournalBearingSvg from '../../../../assets/ADFP SVG/NDE Journal Bearing.svg';
+import { svgMap } from '../../svgMap';
 
 export const NDEJournalBearingNodeFieldConfig = {
     fields: [
@@ -23,7 +23,7 @@ export const NDEJournalBearingNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: NDEJournalBearingSvg,
+        svgPath: svgMap["nde-journal-bearing-node"] || null,
     },
 };
 

@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode'; 
-import CompressorNodeSvg from '../../../../assets/ADFP SVG/Compressor.svg';
+import { svgMap } from '../../svgMap';
 
 export const CompressorNodeFieldConfig = {
     fields: [
@@ -24,7 +24,7 @@ export const CompressorNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: CompressorNodeSvg,
+        svgPath: svgMap["compressor-node"] || null,
         // width: 20,
         // height: 20,
     },

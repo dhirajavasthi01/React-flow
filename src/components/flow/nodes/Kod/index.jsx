@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import KODSvg from '../../../../assets/ADFP SVG/KOD.svg';
+import { svgMap } from '../../svgMap';
 
 export const KODNodeFieldConfig = {
     fields: [
@@ -29,7 +29,7 @@ export const KODNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: KODSvg,
+        svgPath: svgMap["kod-node"] || null,
         targetHandles: []
     },
     style: {

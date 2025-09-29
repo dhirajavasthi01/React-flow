@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode'; 
-import EjectorSvg from '../../../../assets/ADFP SVG/Ejector.svg';
+import { svgMap } from '../../svgMap';
 
 export const EjectorNodeFieldConfig = {
     fields: [
@@ -29,7 +29,7 @@ export const EjectorNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: EjectorSvg,
+        svgPath: svgMap["ejector-node"] || null,
         targetHandles: [], // Empty array means all handles will be source by default
     },
 };

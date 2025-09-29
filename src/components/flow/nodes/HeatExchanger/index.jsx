@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
 import HorizontalHandles from "../../handles/HorizontalHandles";
 import SvgNode from '../../SvgNode';
-import HeatExchangerSvg from '../../../../assets/ADFP SVG/S&T Exchanger.svg';
-
+import { svgMap } from '../../svgMap';
+ 
 
 export const HeatExchangerNodeFieldConfig = {
     fields: [
@@ -30,7 +30,7 @@ export const HeatExchangerNodeConfig = {
         nodeColor: "#d3d3d3",
         strokeColor: "#000000",
         subSystem: null,
-        svgPath: HeatExchangerSvg,
+        svgPath:  svgMap["heat-exchanger-node"] || null,
         targetHandles: [],
     },
 };
