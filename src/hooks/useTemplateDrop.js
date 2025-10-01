@@ -8,6 +8,7 @@ import { useTemplateManager } from './useTemplateManager';
  */
 export const useTemplateDrop = () => {
   const { getTemplate } = useTemplateManager();
+  const DEBUG_TEMPLATES = false;
 
   /**
    * Clone a template's nodes and edges with new IDs and adjusted positions
@@ -22,11 +23,13 @@ export const useTemplateDrop = () => {
       throw new Error(`Template with ID ${templateId} not found`);
     }
 
-    console.log('=== CLONE TEMPLATE DEBUG ===');
-    console.log('Template found:', template);
-    console.log('Template nodes:', template.nodes.map(n => ({ id: n.id, type: n.type, position: n.position })));
-    console.log('Template edges:', template.edges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('Offset applied:', offset);
+    if (DEBUG_TEMPLATES) {
+      console.log('=== CLONE TEMPLATE DEBUG ===');
+      console.log('Template found:', template);
+      console.log('Template nodes:', template.nodes.map(n => ({ id: n.id, type: n.type, position: n.position })));
+      console.log('Template edges:', template.edges.map(e => ({ id: e.id, source: e.source, target: e.target })));
+      console.log('Offset applied:', offset);
+    }
 
     // Determine the template group's center so we can rebase positions to the drop point
     const positions = (template.nodes || []).map(n => n.position || { x: 0, y: 0 });
@@ -61,7 +64,7 @@ export const useTemplateDrop = () => {
         dragging: false
       };
       
-      console.log(`Cloned node: ${node.id} -> ${newId}`, clonedNode);
+      if (DEBUG_TEMPLATES) console.log(`Cloned node: ${node.id} -> ${newId}`, clonedNode);
       return clonedNode;
     });
 
@@ -71,12 +74,14 @@ export const useTemplateDrop = () => {
       const newSource = nodeIdMap.get(edge.source);
       const newTarget = nodeIdMap.get(edge.target);
       
-      console.log(`Processing edge: ${edge.id} (${edge.source} -> ${edge.target})`);
-      console.log(`Mapped to: ${newSource} -> ${newTarget}`);
+      if (DEBUG_TEMPLATES) {
+        console.log(`Processing edge: ${edge.id} (${edge.source} -> ${edge.target})`);
+        console.log(`Mapped to: ${newSource} -> ${newTarget}`);
+      }
       
       // Skip edges that reference nodes not in the template
       if (!newSource || !newTarget) {
-        console.log(`Skipping edge ${edge.id} - source or target not found in template`);
+        if (DEBUG_TEMPLATES) console.log(`Skipping edge ${edge.id} - source or target not found in template`);
         return null;
       }
 
@@ -89,13 +94,15 @@ export const useTemplateDrop = () => {
         selected: false
       };
       
-      console.log(`Cloned edge: ${edge.id} -> ${newId}`, clonedEdge);
+      if (DEBUG_TEMPLATES) console.log(`Cloned edge: ${edge.id} -> ${newId}`, clonedEdge);
       return clonedEdge;
     }).filter(Boolean); // Remove null edges
 
-    console.log('Final cloned nodes:', clonedNodes.map(n => ({ id: n.id, type: n.type })));
-    console.log('Final cloned edges:', clonedEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('=== END CLONE DEBUG ===');
+    if (DEBUG_TEMPLATES) {
+      console.log('Final cloned nodes:', clonedNodes.map(n => ({ id: n.id, type: n.type })));
+      console.log('Final cloned edges:', clonedEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
+      console.log('=== END CLONE DEBUG ===');
+    }
 
     return {
       nodes: clonedNodes,

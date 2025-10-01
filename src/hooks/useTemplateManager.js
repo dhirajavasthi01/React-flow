@@ -21,11 +21,16 @@ export const useTemplateManager = () => {
       throw new Error('Template name and at least one node are required');
     }
 
+    // Deep clone nodes/edges to decouple future mutations
+    const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+    const safeNodes = deepClone(nodes);
+    const safeEdges = deepClone(edges || []);
+
     const template = {
       id: nanoid(),
       name: name.trim(),
-      nodes: [...nodes], // Create a copy to avoid mutations
-      edges: edges ? [...edges] : [], // Create a copy to avoid mutations
+      nodes: safeNodes,
+      edges: safeEdges,
       createdAt: new Date().toISOString()
     };
 

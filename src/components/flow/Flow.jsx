@@ -19,6 +19,7 @@ import styles from './flow.module.scss';
 import { allNodes } from './NodesList';
 import { useTemplateManager } from '../../hooks/useTemplateManager';
 import { useTemplateDrop } from '../../hooks/useTemplateDrop';
+import { useFlowSelection } from '../../hooks/useFlowSelection';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
 
@@ -40,23 +41,8 @@ import {
 } from '../../pages/network/store';
 
 
-import BearingNode from './nodes/Bearing';
-import CouplingNode from './nodes/Coupling';
-import CompressorNode from './nodes/Compressor';
-import BoxNode from './nodes/Box';
-import { HeatExchangerNode } from './nodes/HeatExchanger';
-import { TurbineNode } from './nodes/Turbine';
-import { SurfaceCondenserNode } from './nodes/SurfaceCondenser';
-import { KODNode } from './nodes/Kod';
-import { CentrifugalPumpNode } from './nodes/CentrifugalPump';
-import { ESVNode } from './nodes/Esv';
-import { EjectorNode } from './nodes/Ejector';
-import { TextboxNode } from './nodes/TextBox';
-import FlowingPipeEdge from './edges/FlowingPipEdge';
 import Marker from './marker';
-import { NDEJournalBearingNode } from './nodes/NDEJournalBearing';
-import { CompressorConfigNode } from './nodes/CompressorConfig';
-import { V2Node } from './nodes/V2';
+import { nodeTypes, edgeTypes } from './nodeEdgeTypes';
 import { svgMap } from './svgMap';
 
 function generateRandom8DigitNumber() {
@@ -65,42 +51,6 @@ function generateRandom8DigitNumber() {
   return array[0] % 90000000 + 10000000;
 }
 const initialFlowData={}
-// Define custom node types
-const nodeTypes = {
-  bearingNode: BearingNode,
-  couplingNode: CouplingNode,
-  compressorNode: CompressorNode,
-  compressorConfigNode: CompressorConfigNode,
-  boxNode: BoxNode,
-  heatExchangerNode: HeatExchangerNode,
-  turbineNode: TurbineNode,
-  surfaceCondenserNode: SurfaceCondenserNode,
-  kodNode: KODNode,
-  centrifugalPumpNode: CentrifugalPumpNode,
-  esvNode: ESVNode,
-  ejectorNode: EjectorNode,
-  textBoxNode: TextboxNode,
-  ndeJournalBearingNode: NDEJournalBearingNode,
-  v2Node: V2Node,
-};
-
-const edgeTypes = {
-  flowingPipe: (props) => FlowingPipeEdge({ ...props, type: "default" }),
-  flowingPipeFuel: (props) => FlowingPipeEdge({ ...props, type: "step" }),
-  flowingPipePower: (props) => FlowingPipeEdge({ ...props, type: "power" }),
-  flowingPipeHp: (props) => FlowingPipeEdge({ ...props, type: "hp" }),
-  flowingPipeMp: (props) => FlowingPipeEdge({ ...props, type: "mp" }),
-  flowingPipeLp: (props) => FlowingPipeEdge({ ...props, type: "lp" }),
-  flowingPipeWater: (props) => FlowingPipeEdge({ ...props, type: "water" }),
-  flowingPipSuspectCondensate: (props) =>
-    FlowingPipeEdge({ ...props, type: "suspect" }),
-  flowingPipeCleanCondensate: (props) =>
-    FlowingPipeEdge({ ...props, type: "clean" }),
-  flowingPipeVhp: (props) => FlowingPipeEdge({ ...props, type: "vhp" }),
-  flowingPipeAir: (props) => FlowingPipeEdge({ ...props, type: "air" }),
-  flowingPipeCoolingWater: (props) =>
-    FlowingPipeEdge({ ...props, type: "coolingWater" }),
-};
 
 
 function Flow() {
@@ -126,6 +76,7 @@ function Flow() {
   const { saveTemplate } = useTemplateManager();
   const { handleTemplateDrop } = useTemplateDrop();
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
+  const { selectedNodes: selNodes, allEdges: selEdges } = useFlowSelection(nodes, edges);
   const [templateName, setTemplateName] = useState('');
   const [templateDropCounts, setTemplateDropCounts] = useState({});
   const [shouldDelete, setShouldDelete] = useRecoilState(deleteAtom);
@@ -481,36 +432,9 @@ function Flow() {
 
   // Template-related functions
   const handleSaveTemplate = useCallback(() => {
-    // Get selected nodes and edges directly from the flow state
-    const selectedNodes = nodes.filter(node => node.selected);
-    const selectedEdges = edges.filter(edge => edge.selected);
-    
-    // Get all edges connected to selected nodes (including those not explicitly selected)
-    const connectedEdges = edges.filter(edge => {
-      const sourceSelected = selectedNodes.some(node => node.id === edge.source);
-      const targetSelected = selectedNodes.some(node => node.id === edge.target);
-      return sourceSelected && targetSelected;
-    });
-    
-    // Also get edges where only one end is selected (for partial connections)
-    const partialEdges = edges.filter(edge => {
-      const sourceSelected = selectedNodes.some(node => node.id === edge.source);
-      const targetSelected = selectedNodes.some(node => node.id === edge.target);
-      return sourceSelected || targetSelected;
-    });
-    
-    // Combine explicitly selected edges with connected edges
-    const allEdges = [...new Set([...selectedEdges, ...connectedEdges])];
-    
-    console.log('=== TEMPLATE SAVE DEBUG ===');
-    console.log('Selected nodes:', selectedNodes.map(n => ({ id: n.id, type: n.type })));
-    console.log('All edges in flow:', edges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('Selected edges:', selectedEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('Connected edges (both ends selected):', connectedEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('Partial edges (one end selected):', partialEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('Final edges to save:', allEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
-    console.log('=== END DEBUG ===');
-    
+    const selectedNodes = selNodes;
+    const allEdges = selEdges;
+
     if (selectedNodes.length === 0) {
       alert('Please select at least one node to save as template');
       return;
@@ -529,7 +453,7 @@ function Flow() {
     } catch (error) {
       alert(`Error saving template: ${error.message}`);
     }
-  }, [nodes, edges, saveTemplate]);
+  }, [selNodes, selEdges, saveTemplate]);
 
   const handleSelectionChange = useCallback(({ nodes: selectedNodes, edges: selectedEdges }) => {
     console.log('Selection changed:', { selectedNodes, selectedEdges });
@@ -554,17 +478,7 @@ function Flow() {
         </button>
       )}
       
-      {isDeveloperMode && showSaveTemplate && (() => {
-        const selectedNodes = nodes.filter(node => node.selected);
-        const selectedEdges = edges.filter(edge => edge.selected);
-        const connectedEdges = edges.filter(edge => {
-          const sourceSelected = selectedNodes.some(node => node.id === edge.source);
-          const targetSelected = selectedNodes.some(node => node.id === edge.target);
-          return sourceSelected && targetSelected;
-        });
-        const allEdges = [...new Set([...selectedEdges, ...connectedEdges])];
-        
-        return (
+      {isDeveloperMode && showSaveTemplate && (
           <button
             className={`${styles.saveButton} ${styles.positionPrimaryButton} text-14-regular text-uppercase`}
             id="save-template-button"
@@ -577,10 +491,9 @@ function Flow() {
             }}
             onClick={handleSaveTemplate}
           >
-            Save as Template ({selectedNodes.length} node{selectedNodes.length !== 1 ? 's' : ''}, {allEdges.length} edge{allEdges.length !== 1 ? 's' : ''})
+            Save as Template ({selNodes.length} node{selNodes.length !== 1 ? 's' : ''}, {selEdges.length} edge{selEdges.length !== 1 ? 's' : ''})
           </button>
-        );
-      })()}
+      )}
       <>
         <ReactFlow
           nodes={nodes}
