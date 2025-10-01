@@ -3,6 +3,7 @@ import Flow from './Flow'
 import styles from './Flow.module.scss'
 import NodeConfigurator from './NodeCongigurator'
 import NodesList from './NodesList'
+import TemplateSidebar from './TemplateSidebar'
 import { highlightedNodeTypeAtom, showHandlesAtom, subSystemListAtom } from '../../pages/network/store'
 import { useRecoilState } from 'recoil'
 
@@ -25,6 +26,7 @@ const App = () => {
         <div id='node-list' className={`${styles.leftSection}`}>
         <div className={`${styles.leftTopSection__scrollContainer}`} >
             <NodesList />
+            <TemplateSidebar />
         </div>
         </div>
         </div>

@@ -107,3 +107,9 @@ export const networkFlowDataAtom = atom({
     saved: false
   },
 });
+
+// Template interface and atom for reusable node templates
+export const templatesStateAtom = atom({
+  key: 'templatesStateAtom',
+  default: [],
+});
