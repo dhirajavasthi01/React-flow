@@ -2,44 +2,26 @@ import React, { useState } from 'react';
 import { useTemplateManager } from '../../hooks/useTemplateManager';
 import styles from './Flow.module.scss';
 
-/**
- * TemplateSidebar component for displaying and managing saved templates
- * Supports drag/drop and delete operations
- */
+
 const TemplateSidebar = () => {
   const { templates, deleteTemplate } = useTemplateManager();
   const [draggedTemplate, setDraggedTemplate] = useState(null);
 
-  /**
-   * Handle drag start for template items
-   * @param {Event} event - Drag event
-   * @param {Object} template - Template being dragged
-   */
   const handleDragStart = (event, template) => {
     setDraggedTemplate(template);
     event.dataTransfer.effectAllowed = 'copy';
-    // Primary custom mime-type payload
     event.dataTransfer.setData('application/template', JSON.stringify({
       type: 'template',
       templateId: template.id,
       templateName: template.name
     }));
-    // Fallback for some browsers/environments that strip custom types
     event.dataTransfer.setData('text/plain', `TEMPLATE:${template.id}`);
   };
 
-  /**
-   * Handle drag end for template items
-   */
   const handleDragEnd = () => {
     setDraggedTemplate(null);
   };
 
-  /**
-   * Handle template deletion with confirmation
-   * @param {string} templateId - ID of template to delete
-   * @param {string} templateName - Name of template to delete
-   */
   const handleDeleteTemplate = (templateId, templateName) => {
     const confirmed = window.confirm(
       `Are you sure you want to delete the template "${templateName}"?\n\nThis will not affect any nodes already placed in the diagram.`
@@ -50,11 +32,6 @@ const TemplateSidebar = () => {
     }
   };
 
-  /**
-   * Format template creation date for display
-   * @param {string} createdAt - ISO timestamp
-   * @returns {string} Formatted date string
-   */
   const formatDate = (createdAt) => {
     const date = new Date(createdAt);
     return date.toLocaleDateString('en-US', {
