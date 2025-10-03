@@ -187,3 +187,140 @@
 .react-select__multi-value__label {
     color: white !important;
 }
+
+// Template Sidebar Styles
+.templateSidebar {
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.templateSidebar h3 {
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #6c757d;
+}
+
+.emptyState p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.templateList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.templateItem {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 0.75rem;
+  cursor: grab;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.templateItem:hover {
+  border-color: #009FDF;
+  box-shadow: 0 2px 6px rgba(0, 159, 223, 0.15);
+  transform: translateY(-1px);
+}
+
+.templateItem.dragging {
+  opacity: 0.7;
+  transform: rotate(2deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.templateItem:active {
+  cursor: grabbing;
+}
+
+.templateContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.templateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.templateName {
+  color: #333;
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  flex: 1;
+  word-break: break-word;
+}
+
+.deleteButton {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.deleteButton:hover {
+  background: #c82333;
+}
+
+.templateInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.625rem;
+  color: #6c757d;
+}
+
+.dragIndicator {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.templateItem:hover .dragIndicator {
+  opacity: 1;
+}
+
+.dragIndicator span {
+  color: #009FDF;
+  font-size: 0.625rem;
+  font-weight: 500;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
