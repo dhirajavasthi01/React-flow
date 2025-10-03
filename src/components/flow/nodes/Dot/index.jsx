@@ -24,7 +24,7 @@ export const DotConfig = {
 export const Dot = ({ data, id }) => {
     const { nodeColor } = data;
     const showHandles = useRecoilValue(showHandlesAtom);
-    
+
     const dotVisibility = {
         width: '15px',
         height: '15px',
@@ -34,19 +34,19 @@ export const Dot = ({ data, id }) => {
         opacity: showHandles ? 1 : 0
     }
 
-     const dotStyle = {
+    const dotStyle = {
         width: '12px',
         height: '12px',
         backgroundColor: nodeColor,
         borderRadius: '50%',
-         opacity: showHandles ? 1 : 0,
-         marginTop: '5px'
+        opacity: showHandles ? 1 : 0,
+        marginTop: '5px'
     };
 
     const centerHandleStyle = {
         width: '6px',
         height: '6px',
-        position: 'relative', 
+        position: 'relative',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -55,13 +55,13 @@ export const Dot = ({ data, id }) => {
 
     return (
         <>
-            <div style={{
+            {/* <div style={{
                 width: '15px',
-        height: '15px',
-        position: 'relative',
-        borderRadius: '50%',
-        backgroundColor: nodeColor,
-        opacity: showHandles ? 1 : 0
+                height: '15px',
+                position: 'relative',
+                borderRadius: '50%',
+                backgroundColor: nodeColor,
+                opacity: showHandles ? 1 : 0
             }}>
                 <Handle
                     key={`${id}-center-handle`}
@@ -69,8 +69,8 @@ export const Dot = ({ data, id }) => {
                     id={`${id}-center`}
                     position="top"
                 />
-            </div>
-            {/* <div style={dotStyle}>
+            </div> */}
+            <div style={dotStyle}>
             <Handle
                 key={`${id}-center-handle`}
                 type="source"
@@ -78,7 +78,7 @@ export const Dot = ({ data, id }) => {
                 position={Position.Top} 
                 style={centerHandleStyle}
             />
-        </div> */}
+        </div>
         </>
     );
 };

@@ -565,6 +565,7 @@ const initialFlowData = {
           edges={edges}
           onNodesChange={handleNodesChange}
           onEdgesChange={handleEdgesChange}
+          defaultEdgeOptions={{type: 'flowingPipeStraightArrow'}}
           onConnect={onConnect}
           onNodeClick={onNodeClick}
           onEdgeClick={onEdgeClick}
