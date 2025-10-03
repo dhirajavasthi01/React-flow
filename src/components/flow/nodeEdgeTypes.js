@@ -36,18 +36,10 @@ export const nodeTypes = {
 };
 
 export const edgeTypes = {
-  flowingPipe: (props) => FlowingPipeEdge({ ...props, type: 'default' }),
-  flowingPipeFuel: (props) => FlowingPipeEdge({ ...props, type: 'step' }),
-  flowingPipePower: (props) => FlowingPipeEdge({ ...props, type: 'power' }),
-  flowingPipeHp: (props) => FlowingPipeEdge({ ...props, type: 'hp' }),
-  flowingPipeMp: (props) => FlowingPipeEdge({ ...props, type: 'mp' }),
-  flowingPipeLp: (props) => FlowingPipeEdge({ ...props, type: 'lp' }),
-  flowingPipeWater: (props) => FlowingPipeEdge({ ...props, type: 'water' }),
-  flowingPipSuspectCondensate: (props) => FlowingPipeEdge({ ...props, type: 'suspect' }),
-  flowingPipeCleanCondensate: (props) => FlowingPipeEdge({ ...props, type: 'clean' }),
-  flowingPipeVhp: (props) => FlowingPipeEdge({ ...props, type: 'vhp' }),
-  flowingPipeAir: (props) => FlowingPipeEdge({ ...props, type: 'air' }),
-  flowingPipeCoolingWater: (props) => FlowingPipeEdge({ ...props, type: 'coolingWater' }),
+  flowingPipeStraightArrow: (props) => FlowingPipeEdge({ ...props, type: "straightArrow" }),
+  flowingPipe: (props) => FlowingPipeEdge({ ...props, type: "straight" }),
+  flowingPipeDotted: (props) => FlowingPipeEdge({ ...props, type: "dotted" }),
+  flowingPipeDottedArrow: (props) => FlowingPipeEdge({ ...props, type: "dottedArrow" })
 };
 
 
