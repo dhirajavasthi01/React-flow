@@ -9,7 +9,8 @@ import {
   selectedEdgeIdAtom,
   selectedPageAtom,
   dragNodeTypeAtom,
-  AppAtom
+  AppAtom,
+  showHandlesAtom
 } from '../../pages/network/store';
 import { BearingNodeConfig } from './nodes/Bearing';
 import { CouplingNodeConfig } from './nodes/Coupling';
@@ -26,6 +27,8 @@ import { TextBoxNodeConfig } from './nodes/TextBox';
 import { NDEJournalBearingNodeConfig } from './nodes/NDEJournalBearing';
 import { CompressorConfigNodeConfig } from './nodes/CompressorConfig';
 import { V2NodeConfig } from './nodes/V2';
+import { DotConfig } from './nodes/Dot';
+import DotSvg from '../../assets/ADFP SVG/Dot.svg';
 
 
 export const allNodes = [
@@ -44,6 +47,7 @@ export const allNodes = [
   TextBoxNodeConfig, 
   NDEJournalBearingNodeConfig,
   V2NodeConfig,
+  DotConfig
 ];
 
 const NodesList = () => {
@@ -56,6 +60,7 @@ const NodesList = () => {
   const setSelectedEdgeId = useSetRecoilState(selectedEdgeIdAtom);
   const selectedPage = useRecoilValue(selectedPageAtom);
   const setNodeType = useSetRecoilState(dragNodeTypeAtom);
+  const showHandles = useRecoilValue(showHandlesAtom);
 
   const handleNodeClick = (node) => {
     setSelectedNodeId(null);
@@ -84,15 +89,18 @@ const NodesList = () => {
             onClick={() => handleNodeClick(node)}
             key={node.name}
           >
-            {node.data.svgPath ? (
-              <img
-                src={node.data.svgPath}
-                alt={node.name}
-                style={{ width: '40px', height: '40px' }}
-              />
-            ):(
-              <div style={{color:'black'}}>{node.name}</div>
-            )}
+            {node?.data?.svgPath ? (
+                <img
+                  src={node?.data?.svgPath}
+                  alt={node.name}
+                  style={{
+                    width: node.name === 'Dot Node' ? '15px' : '40px',
+                    height: node.name === 'Dot Node' ? '15px' : '40px',
+                  }}
+                />
+              ) : (
+                <div style={{ color: 'black' }}>{node.name}</div>
+              )}
           </div>
         ))}
       </div>

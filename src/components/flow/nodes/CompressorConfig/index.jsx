@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
-import HorizontalHandles from "../../handles/HorizontalHandles";
+import Handles from "../../handles/Handles";
 import SvgNode from '../../SvgNode';
 import { getNodeGradient } from "../../utils";
 import { svgMap } from '../../svgMap';
@@ -76,7 +76,7 @@ export const CompressorConfigNode = ({ data, id, selected, type }) => {
                 nodeType={type}
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
-                HandlesComponent={HorizontalHandles}
+                HandlesComponent={Handles}
                 isNodeActive={selectedId === id}
                 isHighlighted={isHighlighted}
                 selected={selected}

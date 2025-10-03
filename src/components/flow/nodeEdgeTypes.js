@@ -14,6 +14,7 @@ import { NDEJournalBearingNode } from './nodes/NDEJournalBearing';
 import { CompressorConfigNode } from './nodes/CompressorConfig';
 import { V2Node } from './nodes/V2';
 import FlowingPipeEdge from './edges/FlowingPipEdge';
+import { Dot } from './nodes/Dot';
 
 export const nodeTypes = {
   bearingNode: BearingNode,
@@ -31,6 +32,7 @@ export const nodeTypes = {
   textBoxNode: TextboxNode,
   ndeJournalBearingNode: NDEJournalBearingNode,
   v2Node: V2Node,
+  dotNode: Dot
 };
 
 export const edgeTypes = {

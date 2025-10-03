@@ -12,6 +12,7 @@ import ESVSvg from '../../assets/ADFP SVG/ESV.svg';
 import EjectorSvg from '../../assets/ADFP SVG/Ejector.svg';
 import NDEJournalBearingSvg from '../../assets/ADFP SVG/NDE Journal Bearing.svg';
 import V2NodeSvg from '../../assets/ADFP SVG/V2.svg';
+import DotSvg from '../../assets/ADFP SVG/Dot.svg';
 
 export const svgMap = {
   "bearing-node": BearingNodeSvg,
@@ -28,4 +29,5 @@ export const svgMap = {
   "ejector-node": EjectorSvg,
   "nde-journal-bearing-node": NDEJournalBearingSvg,
   "v2-node": V2NodeSvg,
+  "dot-node": DotSvg
 };

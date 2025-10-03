@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { NodeResizer, useReactFlow } from '@xyflow/react';
 import { useRecoilValue } from 'recoil';
 import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
-import HorizontalHandles from "../../handles/HorizontalHandles";
+import Handles from "../../handles/Handles";
 import SvgNode from '../../SvgNode';
 import { svgMap } from '../../svgMap';
 
@@ -86,7 +86,7 @@ export const BearingNode = ({ data, id, selected, type }) => {
                 svgPath={svgPath}
                 defaultNodeColor="#d3d3d3"
                 defaultStrokeColor="#000000"
-                HandlesComponent={HorizontalHandles}
+                HandlesComponent={Handles}
                 nodeType={type}
                 isHighlighted={isHighlighted}
 

@@ -1,5 +1,5 @@
 import { Position } from "@xyflow/react";
-import HorizontalHandles from "../../handles/HorizontalHandles";
+import Handles from "../../handles/Handles";
 import { useRecoilValue } from 'recoil';
 
 import styles from './BoilerNode.module.scss';
@@ -72,7 +72,7 @@ export const BoilerNode = ({ data, id }) => {
             >
               <polygon points="50,15 90,85 10,85" />
             </svg>
-            <HorizontalHandles id={id} leftStyles={{ left: '5px' }} rightStyles={{ right: '5px' }} />
+            <Handles id={id} leftStyles={{ left: '5px' }} rightStyles={{ right: '5px' }} />
           </div>
 
           <div className={`w-100 text-center ${styles.key}`}>
@@ -103,7 +103,7 @@ export const BoilerNode = ({ data, id }) => {
           >
             <polygon points="50,85 90,15 10,15" />
           </svg>
-          <HorizontalHandles id={id} leftStyles={{ left: '0px' }} rightStyles={{ right: '60px' }} />
+          <Handles id={id} leftStyles={{ left: '0px' }} rightStyles={{ right: '60px' }} />
         </div>
 
         <div className={`w-100 text-center ${styles.key}`}>

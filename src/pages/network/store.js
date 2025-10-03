@@ -14,6 +14,11 @@ const atomWithToggle = (key, initialValue) => atom({
   ]
 })
 
+export const exchangerVariantAtom = atom({
+  key: 'exchangerVariantAtom',
+  default: 'v2',
+});
+
 
 export const subSystemListAtom = atom({
   key: 'subSystemListAtom',
@@ -52,7 +57,7 @@ export const tagListAtom = atom({
 })
 export const selectedPageAtom = atom({
   key: 'selectedPageAtom',
-  default: null,
+  default: 'straightArrow',
 })
 export const networkLockedAtom = atomWithToggle('networkLockedAtom', false)
 export const developerModeAtom = atomWithToggle('developerModeAtom', true)
@@ -112,4 +117,9 @@ export const networkFlowDataAtom = atom({
 export const templatesStateAtom = atom({
   key: 'templatesStateAtom',
   default: [],
+});
+
+export const selectedEdgeTypeAtom = atom({
+  key: 'selectedEdgeTypeAtom',
+  default: 'straightArrow',
 });

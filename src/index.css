@@ -72,24 +72,65 @@ body {
   stroke: rgba(66, 197, 245, 0.7) !important;
 }
 
+.flowingPipe {
+  stroke-width: 6px !important;
+  fill: none !important;
+  stroke-linecap: butt !important;
+}
+
+.flowingPipeAnimated {
+  stroke-width: 3px !important;
+  fill: none !important;
+  stroke-dasharray: 10 !important;
+  animation: flow 2s linear infinite !important;
+  stroke-linecap: butt !important;
+}
+
+.edgeStoke-straight {
+  stroke: rgba(62, 62, 62, 0.7) !important;
+}
+
+.edgeStoke-straightArrow {
+  stroke: rgba(0, 0, 0, 0.7) !important;
+}
+.edgeStoke-dotted {
+  stroke: rgba(56, 56, 56, 0.7) !important;
+  stroke-dasharray: 0.1 8 !important;
+  stroke-linecap: round !important;
+}
+
+.edgeStoke-dottedArrow {
+  stroke: rgba(56, 56, 56, 0.7) !important;
+  stroke-dasharray: 0.1 8 !important;
+  stroke-linecap: round !important;
+}
+
+
 .edgeStoke-default {
   stroke: rgba(0, 0, 0, 0.7) !important;
 }
 
-.flowingPipe {
+/* .flowingPipe {
   stroke-width: 6px !important;
   fill: none !important;
 }
 
 .flowingPipeAnimated {
-  /* Flow color */
   stroke-width: 3px !important;
   fill: none !important;
   stroke-dasharray: 10 !important;
   animation: flow 2s linear infinite !important;
+} */
+
+.arrow-border {
+  stroke-width: 6px !important;
+  fill: none !important;
 }
 
-
+#node-list-Dot img{
+  height: 15px;
+  width: 15px;
+}
 /* #svg-node-couplingNode, #svg-node-turbineNode{
   min-height: 300px;
   min-width: 500px;
