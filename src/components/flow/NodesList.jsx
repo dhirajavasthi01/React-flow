@@ -44,7 +44,7 @@ export const allNodes = [
   CentrifugalPumpNodeConfig,
   ESVNodeConfig,
   EjectorNodeConfig,
-  TextBoxNodeConfig, 
+  TextBoxNodeConfig,
   NDEJournalBearingNodeConfig,
   V2NodeConfig,
   DotConfig
@@ -79,17 +79,22 @@ const NodesList = () => {
       <h3 className="text-14-bold text-uppercase mb_1">Nodes List</h3>
 
       <div className={styles.nodeGrid}>
-        {allNodes.map((node) => (
-          <div
-            data-testid={`node-${node.name}`}
-            id={`node-list-${node.name}`}
-            className={styles.nodeListItem}
-            onDragStart={(event) => onDragStart(event, node.type)}
-            draggable
-            onClick={() => handleNodeClick(node)}
-            key={node.name}
-          >
-            {node?.data?.svgPath ? (
+        {allNodes.map((node) => {
+          const isDotNode = node.name === 'Dot Node'
+          const listItemStyle = isDotNode && !showHandles ? {display: 'none'} : {}
+
+          return (
+            <div
+              data-testid={`node-${node.name}`}
+              id={`node-list-${node.name}`}
+              className={styles.nodeListItem}
+              onDragStart={(event) => onDragStart(event, node.type)}
+              draggable
+              onClick={() => handleNodeClick(node)}
+              key={node.name}
+              style={listItemStyle}
+            >
+              {node?.data?.svgPath ? (
                 <img
                   src={node?.data?.svgPath}
                   alt={node.name}
@@ -101,8 +106,10 @@ const NodesList = () => {
               ) : (
                 <div style={{ color: 'black' }}>{node.name}</div>
               )}
-          </div>
-        ))}
+            </div>
+          )
+        }
+        )}
       </div>
     </div>
   );
