@@ -104,3 +104,35 @@ body {
   min-width: 42px;
   min-height: 42px;
 } */
+
+
+
+.tool-overlay {
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  height: 100%;
+  width: 100%;
+  transform-origin: top left;
+  touch-action: none;
+}
+ 
+.lasso-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ 
+.lasso-controls button {
+  width: 150px;
+}
+ 
+.lasso-controls label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+

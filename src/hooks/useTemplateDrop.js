@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { nanoid } from 'nanoid';
 import { useTemplateManager } from './useTemplateManager';
+import { generateRandom8DigitNumber } from '../components/flow/Flow';
 
 export const useTemplateDrop = () => {
   const { getTemplate } = useTemplateManager();
@@ -12,7 +12,6 @@ export const useTemplateDrop = () => {
       throw new Error(`Template with ID ${templateId} not found`);
     }
 
-    // Determine the template group's center so we can rebase positions to the drop point
     const positions = (template.nodes || []).map(n => n.position || { x: 0, y: 0 });
     const minX = Math.min(...positions.map(p => p.x));
     const maxX = Math.max(...positions.map(p => p.x));
@@ -23,24 +22,19 @@ export const useTemplateDrop = () => {
       y: (minY + maxY) / 2,
     };
 
-    // Create a mapping of old node IDs to new node IDs
     const nodeIdMap = new Map();
     
-    // Clone nodes with new IDs and adjusted positions
     const clonedNodes = template.nodes.map(node => {
-      const newId = nanoid();
+      const newId =`${node.nodeType}-${generateRandom8DigitNumber()}`;
       nodeIdMap.set(node.id, newId);
       
       const clonedNode = {
         ...node,
         id: newId,
-        // Rebase node positions so the group's center aligns with the drop position,
-        // and add a small offset to avoid perfect overlap on repeated drops
         position: {
           x: (dropPosition?.x ?? 0) + (node.position.x - center.x) + (offset.x || 0),
           y: (dropPosition?.y ?? 0) + (node.position.y - center.y) + (offset.y || 0),
         },
-        // Reset selection and other temporary states
         selected: false,
         dragging: false
       };
@@ -48,29 +42,34 @@ export const useTemplateDrop = () => {
       return clonedNode;
     });
 
-    // Clone edges with new IDs and updated source/target references
-    const clonedEdges = template.edges.map(edge => {
-      const newId = nanoid();
-      const newSource = nodeIdMap.get(edge.source);
-      const newTarget = nodeIdMap.get(edge.target);
-      
-      // Skip edges that reference nodes not in the template
-      if (!newSource || !newTarget) {
-        return null;
-      }
+const clonedEdges = template.edges.map(edge => {
+  const newSource = nodeIdMap.get(edge.source);
+  const newTarget = nodeIdMap.get(edge.target);
+  
+  if (!newSource || !newTarget) {
+    return null;
+  }  
 
-      const clonedEdge = {
-        ...edge,
-        id: newId,
-        source: newSource,
-        target: newTarget,
-        // Reset selection and other temporary states
-        selected: false
-      };
-      
-      return clonedEdge;
-    }).filter(Boolean); // Remove null edges
-
+  const sourceHandleSuffix = edge.sourceHandle.replace(edge.source, '');
+  const targetHandleSuffix = edge.targetHandle.replace(edge.target, '');
+  
+  const newSourceHandle = `${newSource}${sourceHandleSuffix}`;
+  const newTargetHandle = `${newTarget}${targetHandleSuffix}`;
+  
+  const newEdgeId = `xy-edge__${newSource}${newSourceHandle}-${newTarget}${newTargetHandle}`;
+  
+  const clonedEdge = {
+    ...edge,
+    id: newEdgeId,
+    source: newSource,
+    target: newTarget,
+    sourceHandle: newSourceHandle,
+    targetHandle: newTargetHandle,
+    selected: false
+  };
+ 
+  return clonedEdge;
+}).filter(Boolean);
     return {
       nodes: clonedNodes,
       edges: clonedEdges
@@ -95,8 +94,7 @@ export const useTemplateDrop = () => {
     try {
       const offset = calculateOffset(dropCount);
       const { nodes, edges } = cloneTemplate(templateId, dropPosition, offset);
-      
-      // Add cloned nodes and edges to the flow
+            
       onNodesAdd(nodes);
       onEdgesAdd(edges);
       

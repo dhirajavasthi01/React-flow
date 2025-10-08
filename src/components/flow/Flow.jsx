@@ -10,6 +10,7 @@ import {
   useUpdateNodeInternals,
   useNodesState,
   useEdgesState,
+  Panel,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -44,13 +45,14 @@ import {
 import Marker from './marker';
 import { nodeTypes, edgeTypes } from './nodeEdgeTypes';
 import { svgMap } from './svgMap';
+import { Lasso } from './Lasso';
 
-function generateRandom8DigitNumber() {
+export function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
   window.crypto.getRandomValues(array);
   return array[0] % 90000000 + 10000000;
 }
-const initialFlowData={}
+const initialFlowData = {}
 
 
 function Flow() {
@@ -71,7 +73,7 @@ function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const isDeveloperMode = useRecoilValue(developerModeAtom);
-  
+
   // Template functionality
   const { saveTemplate } = useTemplateManager();
   const { handleTemplateDrop } = useTemplateDrop();
@@ -84,6 +86,8 @@ function Flow() {
   const [nodeToCopy, setNodeToCopy] = useState(null);
   const [selectedPage, setSelectedPage] = useRecoilState(selectedPageAtom);
   const plantList = useRecoilValue(plantListAtom);
+  const [partial, setPartial] = useState(false);
+console.log("nodes===>",nodes)
   const updateNodeInternals = useUpdateNodeInternals();
   const { screenToFlowPosition, fitView, zoomTo } = useReactFlow();
 
@@ -101,7 +105,7 @@ function Flow() {
             data: {
               ...node?.data,
               svgPath: matchedSvg
-            }, 
+            },
           }
         });
         setNodes(parsedNodes);
@@ -130,6 +134,14 @@ function Flow() {
       fitView({ padding: 0.2, duration: 800 });
     }, 100);
   }, [fitView]);
+
+
+  function deselectAllNodes(nodesArray) {
+  return nodesArray.map(node => ({
+    ...node,
+    selected: false
+  }));
+}
 
   useEffect(() => {
     if (nodes.length > 0 && !isDeveloperMode) {
@@ -325,7 +337,7 @@ function Flow() {
       edgeJson: JSON.stringify(edges),
     };
     console.log({
-      nodes: JSON.stringify(nodes),
+      nodes: JSON.stringify(deselectAllNodes(nodes)),
       edges: JSON.stringify(edges),
       saved: true,
     });
@@ -359,7 +371,7 @@ function Flow() {
         x: event.clientX,
         y: event.clientY,
       });
-      
+
       // Check if it's a template drop
       let templateData = event.dataTransfer.getData('application/template');
       if (!templateData) {
@@ -372,28 +384,28 @@ function Flow() {
       if (templateData) {
         try {
           const { templateId } = JSON.parse(templateData);
-          
+
           // Get current drop count for this template
           const currentDropCount = templateDropCounts[templateId] || 0;
           const newDropCount = currentDropCount + 1;
-          
+
           // Update drop count
           setTemplateDropCounts(prev => ({
             ...prev,
             [templateId]: newDropCount
           }));
-          
+
           console.log('=== TEMPLATE DROP DEBUG ===');
           console.log('Template ID:', templateId);
           console.log('Drop count:', newDropCount);
           console.log('Drop position:', position);
-          
+
           const result = handleTemplateDrop(
             templateId,
             position,
             (newNodes) => {
               console.log('Adding nodes:', newNodes.map(n => ({ id: n.id, type: n.type })));
-              setNodes(prev => [...prev, ...newNodes]);
+              setNodes(prev => deselectAllNodes([...prev, ...newNodes]));
             },
             (newEdges) => {
               console.log('Adding edges:', newEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
@@ -401,7 +413,7 @@ function Flow() {
             },
             newDropCount
           );
-          
+
           if (result.success) {
             console.log('Template dropped successfully:', result);
           } else {
@@ -413,7 +425,7 @@ function Flow() {
         }
         return;
       }
-      
+
       // Handle regular node drop
       if (!type || !position) {
         return;
@@ -446,6 +458,7 @@ function Flow() {
     }
 
     try {
+      console.log("Selected nodes and edges for template:", selectedNodes, allEdges);
       saveTemplate(name.trim(), selectedNodes, allEdges);
       setShowSaveTemplate(false);
       setTemplateName('');
@@ -477,22 +490,22 @@ function Flow() {
           {isLoading ? 'Saving...' : 'Save'}
         </button>
       )}
-      
+
       {isDeveloperMode && showSaveTemplate && (
-          <button
-            className={`${styles.saveButton} ${styles.positionPrimaryButton} text-14-regular text-uppercase`}
-            id="save-template-button"
-            data-testid="save-template-button"
-            style={{ 
-              top: '60px', 
-              right: '20px',
-              backgroundColor: '#28a745',
-              zIndex: 1000
-            }}
-            onClick={handleSaveTemplate}
-          >
-            Save as Template ({selNodes.length} node{selNodes.length !== 1 ? 's' : ''}, {selEdges.length} edge{selEdges.length !== 1 ? 's' : ''})
-          </button>
+        <button
+          className={`${styles.saveButton} ${styles.positionPrimaryButton} text-14-regular text-uppercase`}
+          id="save-template-button"
+          data-testid="save-template-button"
+          style={{
+            top: '60px',
+            right: '20px',
+            backgroundColor: '#28a745',
+            zIndex: 1000
+          }}
+          onClick={handleSaveTemplate}
+        >
+          Save as Template ({selNodes.length} node{selNodes.length !== 1 ? 's' : ''}, {selEdges.length} edge{selEdges.length !== 1 ? 's' : ''})
+        </button>
       )}
       <>
         <ReactFlow
@@ -521,6 +534,7 @@ function Flow() {
           onDragOver={onDragOver}
           style={{ backgroundColor: 'white' }}
         >
+          {partial && <Lasso partial={partial} />}
           <Marker type="flowingPipe" />
           <Marker type="flowingPipeFuel" />
           <Marker type="flowingPipePower" />
@@ -532,7 +546,17 @@ function Flow() {
           <Marker type="flowingPipeCleanCondensate" />
           <Marker type="flowingPipeAir" />
           <Marker type="flowingPipeCoolingWater" />
-
+          <Panel position="top-left" className="lasso-controls">
+            <label>
+              <input
+                type="checkbox"
+                checked={partial}
+                onChange={() => setPartial((p) => !p)}
+                className="xy-theme__checkbox"
+              />
+              Partial selection
+            </label>
+          </Panel>
           <Controls position="bottom-right" showInteractive={isDeveloperMode} />
           <Background variant={isDeveloperMode ? 'lines' : 'none'} />
         </ReactFlow>
