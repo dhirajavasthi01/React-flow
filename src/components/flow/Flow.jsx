@@ -10,6 +10,7 @@ import {
   useUpdateNodeInternals,
   useNodesState,
   useEdgesState,
+  Panel,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -45,8 +46,9 @@ import {
 import Marker from './marker';
 import { nodeTypes, edgeTypes } from './nodeEdgeTypes';
 import { svgMap } from './svgMap';
+import { Lasso } from './Lasso';
 
-function generateRandom8DigitNumber() {
+export function generateRandom8DigitNumber() {
   const array = new Uint32Array(1);
   window.crypto.getRandomValues(array);
   return array[0] % 90000000 + 10000000;
@@ -85,6 +87,8 @@ function Flow() {
   const [nodeToCopy, setNodeToCopy] = useState(null);
   const [selectedPage, setSelectedPage] = useRecoilState(selectedPageAtom);
   const plantList = useRecoilValue(plantListAtom);
+  const [partial, setPartial] = useState(false);
+console.log("nodes===>",nodes)
   const updateNodeInternals = useUpdateNodeInternals();
   const [selectedEdgeType, setSelectedEdgeType] = useRecoilState(selectedEdgeTypeAtom);
   // const [selectedEdgeType, setSelectedEdgeType] = useState(selectedEdgeTypeAtom);
@@ -140,6 +144,14 @@ const initialFlowData = {
       fitView({ padding: 0.2, duration: 800 });
     }, 100);
   }, [fitView]);
+
+
+  function deselectAllNodes(nodesArray) {
+  return nodesArray.map(node => ({
+    ...node,
+    selected: false
+  }));
+}
 
   useEffect(() => {
     if (nodes.length > 0 && !isDeveloperMode) {
@@ -390,7 +402,7 @@ const initialFlowData = {
       edgeJson: JSON.stringify(edges),
     };
     console.log({
-      nodes: JSON.stringify(nodes),
+      nodes: JSON.stringify(deselectAllNodes(nodes)),
       edges: JSON.stringify(edges),
       saved: true,
     });
@@ -458,7 +470,7 @@ const initialFlowData = {
             position,
             (newNodes) => {
               console.log('Adding nodes:', newNodes.map(n => ({ id: n.id, type: n.type })));
-              setNodes(prev => [...prev, ...newNodes]);
+              setNodes(prev => deselectAllNodes([...prev, ...newNodes]));
             },
             (newEdges) => {
               console.log('Adding edges:', newEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
@@ -511,6 +523,7 @@ const initialFlowData = {
     }
 
     try {
+      console.log("Selected nodes and edges for template:", selectedNodes, allEdges);
       saveTemplate(name.trim(), selectedNodes, allEdges);
       setShowSaveTemplate(false);
       setTemplateName('');
@@ -587,10 +600,22 @@ const initialFlowData = {
           onDragOver={onDragOver}
           style={{ backgroundColor: 'white' }}
         >
+          {partial && <Lasso partial={partial} />}
           <Marker type="flowingPipeStraightArrow" />
           <Marker type="flowingPipe" />
           <Marker type="flowingPipeDotted" />
           <Marker type="flowingPipeDottedArrow" />
+            <Panel position="top-left" className="lasso-controls">
+            <label>
+              <input
+                type="checkbox"
+                checked={partial}
+                onChange={() => setPartial((p) => !p)}
+                className="xy-theme__checkbox"
+              />
+              Partial selection
+            </label>
+          </Panel>
           <Controls position="bottom-right" showInteractive={isDeveloperMode} />
           <Background variant={isDeveloperMode ? 'lines' : 'none'} />
         </ReactFlow>
