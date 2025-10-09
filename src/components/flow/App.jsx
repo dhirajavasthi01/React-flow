@@ -37,6 +37,7 @@ const App = () => {
               id="handles-button"
               data-testid="handles-button"
               onClick={() => toggle(!show)}
+              // onClick={() => toggle(prev => !prev)}
             >
               {show ? 'Hide Handles' : 'Show Handles'}
             </button>
