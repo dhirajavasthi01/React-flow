@@ -1,10 +1,7 @@
 import { memo } from 'react';
-import { NodeResizer, useReactFlow } from '@xyflow/react';
-import { useRecoilValue } from 'recoil';
-import { allTagsDataAtom, selectedNodeIdAtom, highlightedNodeTypeAtom } from "../../../../pages/network/store";
-import Handles from "../../handles/Handles";
-import SvgNode from '../../SvgNode';
 import { svgMap } from '../../svgMap';
+import BaseSvgNode from '../BaseSvgNode';
+import { useNodeCommon } from '../useNodeCommon';
 
 export const BoxNodeFieldConfig = {
     fields: [
@@ -33,66 +30,27 @@ export const BoxNodeConfig = {
 };
 
 const BoxNode = ({ data, id, selected, type }) => {
-    const { isActive, linkedTag, subSystem, svgPath } = data;
-
-    // Use the useReactFlow hook to get access to the setNodes function
-    const { setNodes } = useReactFlow();
-
-    const selectedId = useRecoilValue(selectedNodeIdAtom);
-    const allTagsDataList = useRecoilValue(allTagsDataAtom);
-    const highlightedNodeType = useRecoilValue(highlightedNodeTypeAtom);
-
-    // Handle highlighting internally in the node component
-    const isHighlighted = subSystem !== null &&
-        highlightedNodeType !== null &&
-        highlightedNodeType === subSystem;
-
-    const tagData = allTagsDataList.find(
-        (x) => x.tagId && x.tagId === linkedTag
-    );
-
-    const isNodeActive = tagData ? tagData?.actual == 1 : isActive;
-
-    // Callback to update the node's style after resizing
-    const onResizeEnd = (_, params) => {
-        setNodes((nds) =>
-            nds.map((node) => {
-                if (node.id === id) {
-                    return {
-                        ...node,
-                        // Update the style object with the new dimensions
-                        style: { ...node.style, width: params.width, height: params.height },
-                    };
-                }
-                return node;
-            })
-        );
-    };
+    const { svgPath } = data;
+    const nodeCommon = useNodeCommon(id, data);
 
     return (
-        <>
-            {/* The NodeResizer component should wrap the node content */}
-            <NodeResizer
-                isVisible={selected}
-                minWidth={20}
-                minHeight={20}
-                onResizeEnd={onResizeEnd}
-            />
-            <SvgNode
-                id={id}
-                data={data}
-                svgPath={svgPath}
-                nodeType={type}
-                defaultWidth={data.width}
-                defaultHeight={data.height}
-                defaultNodeColor="#d3d3d3"
-                defaultStrokeColor="#000000"
-                HandlesComponent={Handles}
-                isNodeActive={selectedId === id}
-                isHighlighted={isHighlighted}
-                selected={selected}
-            />
-        </>
+        <BaseSvgNode
+            id={id}
+            data={data}
+            selected={selected}
+            type={type}
+            svgPath={svgPath}
+            isDeveloperMode={nodeCommon.isDeveloperMode}
+            isSelected={nodeCommon.isSelected}
+            isHighlighted={nodeCommon.isHighlighted}
+            isNodeActive={nodeCommon.selectedId === id}
+            nodeCommon={nodeCommon}
+            resizeOptions={{ minWidth: 20, minHeight: 20 }}
+            svgNodeProps={{
+                defaultWidth: data.width,
+                defaultHeight: data.height,
+            }}
+        />
     );
 };
 

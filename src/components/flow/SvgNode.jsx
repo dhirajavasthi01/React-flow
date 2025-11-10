@@ -10,6 +10,8 @@ const SvgNode = ({
   defaultStrokeColor = "#000000",
   HandlesComponent,
   isHighlighted = false,
+  isSelected = false,
+  isDeveloperMode = true,
 }) => {
   const {
     nodeColor = defaultNodeColor,
@@ -34,7 +36,9 @@ const SvgNode = ({
     gradientStart,
     gradientEnd,
     nodeId,
-    nodeType
+    nodeType,
+    isSelected = false,
+    isDeveloperMode = true
   ) => {
     try {
       const parser = new DOMParser();
@@ -64,6 +68,15 @@ const SvgNode = ({
         svgElement.setAttribute(
           "class",
           `${existingClass} ${styles.highlighted}`.trim()
+        );
+      }
+      
+      // Add selected class for non-developer mode highlighting
+      if (isSelected && !isDeveloperMode) {
+        const existingClass = svgElement.getAttribute("class") || "";
+        svgElement.setAttribute(
+          "class",
+          `${existingClass} ${styles.selected}`.trim()
         );
       }
 
@@ -117,6 +130,12 @@ const SvgNode = ({
         svgElement.querySelectorAll("[stroke]").forEach((el) => {
           if (el.getAttribute("stroke") !== "none") {
             el.setAttribute("stroke", strokeColor);
+            // Highlight stroke if selected in non-developer mode
+            if (isSelected && !isDeveloperMode) {
+              el.setAttribute("stroke-width", "3px");
+              el.setAttribute("stroke", "#0066ff");
+              el.style.filter = "drop-shadow(0 0 4px rgba(0, 102, 255, 0.8))";
+            }
           }
         });
       } else {
@@ -125,8 +144,15 @@ const SvgNode = ({
             if (el.getAttribute("fill") !== "none") el.setAttribute("fill", fillColor);
           });
           svgElement.querySelectorAll("[stroke]").forEach((el) => {
-            if (el.getAttribute("stroke") !== "none")
+            if (el.getAttribute("stroke") !== "none") {
               el.setAttribute("stroke", strokeColor);
+              // Highlight stroke if selected in non-developer mode
+              if (isSelected && !isDeveloperMode) {
+                el.setAttribute("stroke-width", "3px");
+                el.setAttribute("stroke", "#0066ff");
+                el.style.filter = "drop-shadow(0 0 4px rgba(0, 102, 255, 0.8))";
+              }
+            }
           });
         }
       }
@@ -143,7 +169,7 @@ const SvgNode = ({
       try {
         const response = await fetch(svgPath);
         let svgText = await response.text();
-        svgText = processSvg(svgText, nodeColor, strokeColor, isHighlighted, useDefaultSvgColors, gradientStart, gradientEnd, id, nodeType);
+        svgText = processSvg(svgText, nodeColor, strokeColor, isHighlighted, useDefaultSvgColors, gradientStart, gradientEnd, id, nodeType, isSelected, isDeveloperMode);
         setSvgContent(svgText);
       } catch (error) {
         console.error('Error loading SVG:', error);
@@ -152,7 +178,7 @@ const SvgNode = ({
     };
 
     fetchSvg();
-  }, [svgPath, isHighlighted, nodeColor, strokeColor, useDefaultSvgColors, gradientStart, gradientEnd, id, nodeType]);
+  }, [svgPath, isHighlighted, nodeColor, strokeColor, useDefaultSvgColors, gradientStart, gradientEnd, id, nodeType, isSelected, isDeveloperMode]);
 
 
   useEffect(() => {
@@ -170,7 +196,6 @@ const SvgNode = ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        // border: isNodeActive ? '2px solid green' : 'none',
       }}
     >
       {/* Tag label if provided */}

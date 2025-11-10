@@ -62,6 +62,16 @@
   animation: pulseHighlight 1.5s infinite;
 }
 
+// Selected state (for non-developer mode)
+.selected {
+  // Apply to SVG elements
+  [stroke] {
+    stroke-width: 1px !important;
+    stroke: #0066ff !important;
+    filter: drop-shadow(0 0 4px rgba(0, 102, 255, 0.8)) !important;
+  }
+}
+
 // Fallback for img tags
 img.highlighted {
   border: 2px solid gold;

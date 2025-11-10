@@ -1,8 +1,8 @@
 import { memo, useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { NodeResizer, useReactFlow } from '@xyflow/react';
-import { useRecoilValue } from 'recoil';
+import { NodeResizer, useReactFlow, useStore } from '@xyflow/react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { EXTRA_NODE_COLORS } from "../utils";
-import { allTagsDataAtom, selectedNodeIdAtom } from "../../../pages/network/store";
+import { allTagsDataAtom, selectedNodeIdAtom, developerModeAtom, selectedEdgeIdAtom, nodeConfigAtom } from "../../../pages/network/store";
 import Handles from "../handles/Handles";
 
 export const TextBoxNodeFieldConfig = {
@@ -61,8 +61,14 @@ export const TextBoxNodeConfig = {
 
 export const TextboxNode = memo(({ data, id, selected }) => {
     const selectedId = useRecoilValue(selectedNodeIdAtom);
-    const { setNodes } = useReactFlow();
+    const isDeveloperMode = useRecoilValue(developerModeAtom);
+    const { setNodes, screenToFlowPosition, getNodes } = useReactFlow();
+    const nodeLookup = useStore((s) => s.nodeLookup);
+    const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
+    const setSelectedEdgeId = useSetRecoilState(selectedEdgeIdAtom);
+    const setConfig = useSetRecoilState(nodeConfigAtom);
     const textRef = useRef(null);
+    const containerRef = useRef(null);
 
     const {
         width: initialWidth = 200,
@@ -83,6 +89,76 @@ export const TextboxNode = memo(({ data, id, selected }) => {
         height: initialHeight
     });
     const [fontSize, setFontSize] = useState(16);
+
+    useEffect(() => {
+        // Toggle draggability/selectability only (keep pointer events so we can intercept click in view mode)
+        setNodes((nodes) =>
+            nodes.map((node) => {
+                if (node.id !== id) return node;
+                return {
+                    ...node,
+                    draggable: isDeveloperMode,
+                    selectable: isDeveloperMode,
+                };
+            })
+        );
+    }, [isDeveloperMode, id, setNodes]);
+
+    const handleInterceptClick = (e) => {
+        if (isDeveloperMode) return; // normal editing behavior
+        
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Convert click coordinates to flow coordinates
+        const point = screenToFlowPosition({ x: e.clientX, y: e.clientY });
+
+        // Find all nodes that contain this point (excluding text boxes and self)
+        let bestMatch = null;
+        for (const node of nodeLookup.values()) {
+            if (!node || node.id === id) continue; // skip self
+            if (node.type === 'textBoxNode') continue; // ignore other text boxes
+            
+            const w = node.measured?.width || 0;
+            const h = node.measured?.height || 0;
+            if (w === 0 || h === 0) continue;
+            
+            const left = node.internals.positionAbsolute.x;
+            const top = node.internals.positionAbsolute.y;
+            const right = left + w;
+            const bottom = top + h;
+            
+            // Check if click point is inside this node
+            const contains = point.x >= left && point.x <= right && point.y >= top && point.y <= bottom;
+            if (!contains) continue;
+            
+            // Prefer node with highest z-index
+            const z = node.internals?.z || 0;
+            if (!bestMatch || z > bestMatch.z) {
+                bestMatch = { id: node.id, z, node };
+            }
+        }
+
+        if (bestMatch) {
+            const allNodes = getNodes();
+            const targetNode = allNodes.find(n => n.id === bestMatch.id);
+            
+            if (targetNode) {
+                // Update React Flow selection state
+                setNodes((nodes) =>
+                    nodes.map((node) => ({
+                        ...node,
+                        selected: node.id === bestMatch.id
+                    }))
+                );
+                
+                // Update Recoil state
+                setSelectedEdgeId(null);
+                setSelectedNodeId(bestMatch.id);
+                setConfig(targetNode);
+            }
+        }
+    };
 
     useEffect(() => {
         setCurrentDimensions({
@@ -165,12 +241,13 @@ export const TextboxNode = memo(({ data, id, selected }) => {
     return (
         <>
             <NodeResizer
-                isVisible={selected}
+                isVisible={selected && isDeveloperMode}
                 minWidth={80}
                 minHeight={40}
                 onResizeEnd={onResizeEnd}
             />
             <div
+                ref={containerRef}
                 style={{
                     display: "inline-flex",
                     justifyContent: "center",
@@ -181,7 +258,11 @@ export const TextboxNode = memo(({ data, id, selected }) => {
                     height: currentDimensions.height,
                     padding: "4px",
                     boxSizing: "border-box",
+                    pointerEvents: 'auto',
+                    cursor: isDeveloperMode ? 'default' : 'pointer',
                 }}
+                onMouseDown={handleInterceptClick}
+                onClick={handleInterceptClick}
             >
                 <p
                     ref={textRef}

@@ -55,21 +55,6 @@ export const Dot = ({ data, id }) => {
 
     return (
         <>
-            {/* <div style={{
-                width: '15px',
-                height: '15px',
-                position: 'relative',
-                borderRadius: '50%',
-                backgroundColor: nodeColor,
-                opacity: showHandles ? 1 : 0
-            }}>
-                <Handle
-                    key={`${id}-center-handle`}
-                    type="source"
-                    id={`${id}-center`}
-                    position="top"
-                />
-            </div> */}
             <div style={dotStyle}>
             <Handle
                 key={`${id}-center-handle`}
