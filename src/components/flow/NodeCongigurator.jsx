@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import styles from './flow.module.scss'
+import styles from './Flow.module.scss'
 
 import { edgeOptions, extractColorsFromSvg, text_box_resources } from './utils'
 
