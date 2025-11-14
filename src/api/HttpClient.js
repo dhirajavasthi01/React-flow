@@ -1,3 +1,5 @@
+import AxiosInstance from './AxiosInstance';
+
 export const HttpClient = {
   get:(url,config)=> AxiosInstance.get(url,config).then(res=>res.data),
   post:(url,data,config)=> AxiosInstance.post(url,data,config).then(res=>res.data),
